@@ -14,161 +14,18 @@
 <meta property="og:description" content="Javascript port of G_heinz' Generation 3 Damage Calculator for Pokemon Ruby, Sapphire, Emerald, Fire Red, Leaf Green and the Gamecube spin-offs.">
 <link href="/favicon.ico" rel="shortcut icon">
 <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
-<style>
-body,html{min-width:1210px;}
-body{
-	font-family:'Lato',sans-serif;
-	line-height:1.1em;
-	background:url('i/bg.png') #7dad71 top center repeat-x;
-}
-
-/**MAIN AREAS**/
-main,#form{width:800px !important;}
-main,footer,#typeEffectHelp{
-	margin-left:25px;
-	border:1px solid #00B0F0;
-	padding:12px;
-	border-radius:12px;
-	background:rgba(238,255,255,0.75);
-	font-size:14px;
-}
-footer,#typeEffectHelp{width:300px;}
-#form table {
-	border:1px solid #00B0F0;
-	padding:2px;
-	border-radius:8px;
-}
-
-/**TOP TWO TABLES**/
-#form table.pokemon {
-	width:300px;
-	float:left;
-	margin:0px 50px 15px 50px;
-}
-#form table.pokemon tr:last-of-type td{padding-bottom:10px;}
-#form table.bonus-effects{width:100%;}
-input[type="number"]{
-	width:100px;
-	border:1px inset #00B0F0;
-	background:#DDF0FF;
-	color:#0080B0;
-}
-
-textarea{
-	border-radius:8px;
-	box-sizing:border-box;
-	color:#121212;
-	min-height:56px;
-	max-height:56px;
-	min-width:796px;
-	max-width:796px;
-	margin-top:15px;
-	padding:4px;
-	overflow:hidden;
-}
-textarea.kill{
-	border:1px outset #00D080;
-	background:#DDF0FF;
-}
-textarea.range{
-	border:1px outset #D08000;
-	background:#FFF0DD;
-}
-textarea.lives{
-	border:1px outset #D08080;
-	background:#F0EEEE;
-}
-th{
-	font-size:16px;
-	font-weight:700;
-	text-align:center;
-	padding:10px 0px;
-}
-td{
-	height:24px;min-height:24px;max-height:24px;
-	vertical-align:middle;
-	text-align:left;
-	/**font-family:'Courier New',monospace;**/
-}
-aside {
-	position:absolute;
-	top:75px;
-	left:850px;
-	width:320px;
-}
-aside hr{border-top:1px solid #00B0F0;}
-.smol{font-size:12px;}
-a{color:#060 !important;text-decoration:none;}
-a:hover{text-decoration:underline;}
-input[type="button"]{
-	border:1px outset #00B0F0;
-	border-radius:8px;
-	background:#DDF0FF;
-	padding:2px;
-	color:#0080B0;
-}
-input[type="button"]:active,input[type="radio"]:not(:checked)+label:active {
-	border:1px outset #005080;
-	background:#EFF;
-	color:#003080;
-}
-h1{
-	text-align:center;
-	font-weight:700;
-	width:1200px;
-}
-h3{margin:0.4em 3px;}
-.clear {clear:both;}
-
-/**CALC RADIOS**/
-main input[type="radio"]{display:none;}
-main input[type="radio"]+label{
-	display:block;
-	float:left;
-	font-family:'Lato',sans-serif;
-	margin:0.5em 0px;
-	padding:5px;
-	color:#0080B0;
-	border:1px outset #00B0F0;
-	background:#EFF;
-	text-align:center;
-}
-main input[type="radio"]:not(:checked)+label{opacity:0.33;}
-main input[type="radio"]:not(:checked)+label:hover{opacity:0.75;}
-main input[type="radio"]:checked+label      {opacity:1;}
-p label:first-of-type {
-	border-top-left-radius:8px;
-	border-bottom-left-radius:8px;
-}
-p label:last-of-type {
-	border-top-right-radius:8px;
-	border-bottom-right-radius:8px;
-}
-img[alt="R"],img[alt="V"]{transform:translateY(12px);}
-img[alt="K"],img[alt="B"]{transform:translateY(-12px);}
-
-/**Typeeffect helper**/
-#typeEffectHelp{margin-bottom:15px;}
-#MoveTypeText{position:relative;bottom:10px;left:10px;}
-#typePicker{
-	position:absolute;
-	width:210px;
-	border:1px solid #00B0F0;
-	padding:8px;
-	border-radius:10px;
-	background:rgba(238,255,255,1);
-	font-size:12px;
-}
-#typePicker img {width:32px;height:16px;}
-</style>
+<link href="style.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="js/gen3calc.min.js"></script>
+<!-- Pretty code:
 <script src="js/radioValue.js"></script>
 <script src="js/typeEffect.js"></script>
-<script src="js/gen3calc.js"></script>
+<script src="js/gen3calc.min.js"></script>
+-->
 </head>
 <body onload="DamageCalc();">
 <h1 style="text-align:center;"><img src="i/382.png" alt="K"> <img src="i/383.png" alt="G"> <img src="i/384.png" alt="R"> Damage Calculator for Generation 3 <img src="i/003.png" alt="V"> <img src="i/006.png" alt="C"> <img src="i/009.png" alt="B"></h1>
-<main><form id="form" onchange="DamageCalc();return false;">
+<main><form id="calcInput" onchange="DamageCalc();return false;">
 <!--	Basic stats		-->
 	<table class="pokemon"><!--	Attacker		-->
 		<tr>
@@ -176,19 +33,19 @@ img[alt="K"],img[alt="B"]{transform:translateY(-12px);}
 		</tr>
 		<tr>
 			<td>Level:</td>
-			<td><input type="number" name="L" min="1" max="100" step="1" value="50" oninput="DamageCalc();"></td>
+			<td><input type="number" name="attackerLevel" min="1" max="100" step="1" value="50" oninput="DamageCalc();"></td>
 		</tr>
 		<tr>
 			<td>Offensive stat value:</td>
-			<td><input type="number" min="1" max="999" step="1" value="100" name="Atk" oninput="DamageCalc();"></td>
+			<td><input type="number" min="1" max="999" step="1" value="100" name="attackerAtkStat" oninput="DamageCalc();"></td>
 		</tr>
 		<tr>
 			<td>Move's base power:</td>
-			<td><input type="number" min="1" max="999" step="1" value="80" name="BP" oninput="DamageCalc();"></td>
+			<td><input type="number" min="1" max="999" step="1" value="80" name="attackerMoveBP" oninput="DamageCalc();"></td>
 		</tr>
 		<tr>
 			<td>Attack stage:</td>
-			<td><input type="number" name="AStage" min="-6" max="6" step="1" value="0" oninput="DamageCalc();"></td>
+			<td><input type="number" name="attackerAtkStage" min="-6" max="6" step="1" value="0" oninput="DamageCalc();"></td>
 		</tr>
 	</table>
 	<table  class="pokemon"><!--	Defender		-->
@@ -198,15 +55,15 @@ img[alt="K"],img[alt="B"]{transform:translateY(-12px);}
 		<tr><td colspan="2"></td></tr>
 		<tr>
 			<td>Defensive stat value:</td>
-			<td><input type="number" min="1" max="999" step="1" value="100" name="Def" oninput="DamageCalc();"></td>
+			<td><input type="number" min="1" max="999" step="1" value="100" name="defenderDefStat" oninput="DamageCalc();"></td>
 		</tr>
 		<tr>
-			<td>HP value:</td>
-			<td><input type="number" min="1" max="999" step="1" value="250" name="HPvalue" oninput="DamageCalc();"></td>
+			<td>Current HP:</td>
+			<td><input type="number" min="1" max="999" step="1" value="250" name="defenderHPStat" oninput="DamageCalc();"></td>
 		</tr>
 		<tr>
 			<td>Defense stage:</td>
-			<td><input type="number" name="DStage" min="-6" max="6" step="1" value="0" oninput="DamageCalc();"></td>
+			<td><input type="number" name="defenderDefStage" min="-6" max="6" step="1" value="0" oninput="DamageCalc();"></td>
 		</tr>
 	</table>
 	<div class="clear"></div>
@@ -216,14 +73,14 @@ img[alt="K"],img[alt="B"]{transform:translateY(-12px);}
 			<th colspan="4">Bonus Effects and Type-Effectiveness<img src="i/star.png" alt="eff" style="float:right;margin-right:12px;"></th>
 		</tr>
 		<tr>
-			<td><input type="checkbox" name="badgeboost" id="badgeboost"></td>
-			<td><label for="badgeboost">Does a badge boost apply?</label></td>
-			<td><input type="checkbox" name="softwater" id="softwater"></td>
-			<td><label for="softwater">Does the held item boost the damage by 10% <span class="smol">(Mystic Water etc.)</span>?</label></td>
+			<td><input type="checkbox" name="badgeBoost" id="badgeBoost"></td>
+			<td><label for="badgeBoost">Does a badge boost apply?</label></td>
+			<td><input type="checkbox" name="itemBoost" id="itemBoost"></td>
+			<td><label for="itemBoost">Does the held item boost the damage by 10% <span class="smol">(Mystic Water etc.)</span>?</label></td>
 		</tr>
 		<tr>
-			<td><input type="checkbox" name="torrentcheck" id="torrentcheck"></td>
-			<td><label for="torrentcheck">Does Torrent/Blaze apply?</label></td>
+			<td><input type="checkbox" name="abilityBoost" id="abilityBoost"></td>
+			<td><label for="abilityBoost">Does Torrent/Blaze apply?</label></td>
 			<td><input type="checkbox" name="doublecheck" id="doublecheck"></td>
 			<td><label for="doublecheck">Does the attack target both defending Pokemon?</label></td>
 		</tr>
