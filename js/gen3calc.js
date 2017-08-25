@@ -26,22 +26,18 @@ function DamageCalc(){
 	if(input.itemBoost.checked) A = Math.trunc(A*1.1);//10% Itemboost
 	if(input.abilityBoost.checked) BP = Math.trunc(BP*1.5);//50% Basepower boost from Ability
 	//AtkStages
-	SMx = 10; SMy = 10;
 	if(atkStage > 0) {
-		SMx += 5 * atkStage;
+        SM = (10 + (5 * atkStage)) / 10;
 	} else if(atkStage < 0) {
-		SMy += -5 * atkStage;
-	}
-	SM = SMx / SMy;
+        SM = 10 / (10 + (-5 * atkStage));
+	} else  SM = 1;
 	A = Math.trunc(A*SM);//Apply atkStage multiplier to atkStat
 	//DefStages
-	SMx = 10; SMy = 10;
 	if(defStage > 0) {
-		SMx += 5 * defStage;
+		SM = (10 + (5 * defStage)) / 10;
 	} else if(defStage < 0) {
-		SMy += -5 * defStage;
+		SM = 10 / (10 + (-5 * defStage));
 	}
-	SM = SMx / SMy;
 	D = Math.trunc(D*SM);//Apply defStage multiplier to defStat
 
 	////-- calculate base damage --
