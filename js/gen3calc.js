@@ -22,7 +22,8 @@ function DamageCalc(){
 	output += defStage + " " + D + " with " + HP + "HP:\n";
 	
 	////-- modify stats based boost --
-	if(input.badgeBoost.checked) A = Math.trunc(A*1.1);//10% Badgeboost
+	if(input.badgeBoostAtk.checked) A = Math.trunc(A*1.1);//10% Badgeboost to ATK
+	if(input.badgeBoostDef.checked) D = Math.trunc(D*1.1);//10% Badgeboost to DEF
 	if(input.itemBoost.checked) A = Math.trunc(A*1.1);//10% Itemboost
 	if(input.abilityBoost.checked) BP = Math.trunc(BP*1.5);//50% Basepower boost from Ability
 	//AtkStages

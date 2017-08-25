@@ -20,8 +20,7 @@
 <!-- Pretty code:
 <script src="js/radioValue.js"></script>
 <script src="js/typeEffect.js"></script>
-<script src="js/gen3calc.min.js"></script>
--->
+<script src="js/gen3calc.js"></script>-->
 </head>
 <body onload="DamageCalc();">
 <h1 style="text-align:center;"><img src="i/382.png" alt="K"> <img src="i/383.png" alt="G"> <img src="i/384.png" alt="R"> Damage Calculator for Generation 3 <img src="i/003.png" alt="V"> <img src="i/006.png" alt="C"> <img src="i/009.png" alt="B"></h1>
@@ -73,22 +72,26 @@
 			<th colspan="4">Bonus Effects and Type-Effectiveness<img src="i/star.png" alt="eff" style="float:right;margin-right:12px;"></th>
 		</tr>
 		<tr>
-			<td><input type="checkbox" name="badgeBoost" id="badgeBoost"></td>
-			<td><label for="badgeBoost">Does a badge boost apply?</label></td>
+			<td><input type="checkbox" name="badgeBoostAtk" id="badgeBoostAtk" onclick="document.getElementById('badgeBoostDef').checked = false;"></td>
+			<td><label for="badgeBoostAtk" title="Only for calculating your Pokemon attacking an opponent!" onclick="document.getElementById('badgeBoostDef').checked = false;">Does offensive badge boost apply?</label></td>
 			<td><input type="checkbox" name="itemBoost" id="itemBoost"></td>
 			<td><label for="itemBoost">Does the held item boost the damage by 10% <span class="smol">(Mystic Water etc.)</span>?</label></td>
 		</tr>
 		<tr>
+			<td><input type="checkbox" name="badgeBoostDef" id="badgeBoostDef" onclick="document.getElementById('badgeBoostAtk').checked = false;"></td>
+			<td><label for="badgeBoostDef" title="Only for calculating an attack targeting your Pokemon!" onclick="document.getElementById('badgeBoostAtk').checked = false;">Does defensive badge boost apply?</label></td>
 			<td><input type="checkbox" name="abilityBoost" id="abilityBoost"></td>
 			<td><label for="abilityBoost">Does Torrent/Blaze apply?</label></td>
-			<td><input type="checkbox" name="doublecheck" id="doublecheck"></td>
-			<td><label for="doublecheck">Does the attack target both defending Pokemon?</label></td>
 		</tr>
 		<tr>
+			<td><input type="checkbox" name="doublecheck" id="doublecheck"></td>
+			<td><label for="doublecheck" title="The damage of attacks that hit both targets in a double battle is split">Does the attack target both defending Pokemon?</label></td>
 			<td><input type="checkbox" name="stabcheck" id="stabcheck"></td>
 			<td><label for="stabcheck">Is the move STAB?</label></td>
+		</tr>
+		<tr>
 			<td><input type="checkbox" name="lsrefcheck" id="lsrefcheck"></td>
-			<td><label for="lsrefcheck">Does Light Screen or Reflect apply?</label></td>
+			<td colspan="3"><label for="lsrefcheck" title="Reference the Type Effectiveness Helper if you're unsure about the damage type of your attack">Does Light Screen or Reflect apply? <i>(Light Screen for special attacks, Reflect for physical attacks)</i></label>
 		</tr>
 		<tr>
 			<td colspan="4"><p>The move is...<br>
@@ -131,7 +134,7 @@
 		</table>
 	</form>
 	<footer>
-		<span class="smol">Version 2.1.3 (added Type Effectiveness Helper)</span><br>
+		<span class="smol">Version 2.1.4 (added defensive Badgeboost)</span><br>
 		<span class="smol">Original script by: G_heinz</span><br>
 		<span class="smol">Thx to: Darkwarrior, Stringflow</span>
 		<hr><h3>Other versions:</h3>
