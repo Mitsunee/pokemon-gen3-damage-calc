@@ -146,14 +146,14 @@
 		<br>
 		<a href="http://imgur.com/a/UnOCz">Fire Red Item Locations</a>
 		<hr>
-		<table style="width:100%;">
+		<table style="width:100%;" id="psr-icons">
 			<tr>
-				<td colspan="6"><a href="http://www.speedrun.com/pokemon" style="display:block;width:100%;margin-bottom:0.5em;text-align:center;"><img src="i/psrsrc.png" alt="Pokemon Speedruns" title="Pokemon Speedruns"></a></td>
-			</tr>
-			<tr>
+				<td rowspan="2" style="text-align:center;"><a href="http://www.pokemonspeedruns.com/"><img src="i/psrico.png" alt="Pokemon Speedruns" title="Pokemon Speedruns" style="width:95px;height:auto;"></a></td>
 				<td><a href="http://www.speedrun.com/pkmnrubysapphire"><img src="i/382.png" alt="Pokemon Sapphire" title="Pokemon Sapphire"></a></td>
 				<td><a href="http://www.speedrun.com/pkmnemerald"><img src="i/384.png" alt="Pokemon Emerald" title="Pokemon Emerald"></a></td>
 				<td><a href="http://www.speedrun.com/pkmnfrlg"><img src="i/006.png" alt="Pokemon Fire Red" title="Pokemon Fire Red"></a></td>
+			</tr>
+			<tr>
 				<td><a href="http://www.speedrun.com/pkmncolosseum"><img src="i/250.png" alt="Pokemon Colosseum" title="Pokemon Colosseum"></a></td>
 				<td><a href="http://www.speedrun.com/pkmnxd"><img src="i/249s.png" alt="Pokemon XD Gale Of Darkness" title="Pokemon XD Gale Of Darkness"></a></td>
 				<td><a href="http://www.speedrun.com/pmdredblue"><img src="i/300md.png" alt="Pokemon Mystery Dungeon" title="Pokemon Mystery Dungeon"></a></td>
