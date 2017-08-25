@@ -136,7 +136,8 @@
 		<span class="smol">Thx to: Darkwarrior, Stringflow</span>
 		<hr><h3>Other versions:</h3>
 		G_heinz' original python script (modified): <a href="http://pastebin.com/3ByqgxtP">Pastebin</a><br>
-		Stringflow's java port: <a href="/downloads/RSE_Damage_Calculator.zip">Direct download</a>
+		Stringflow's java port: <a href="/downloads/RSE_Damage_Calculator.zip">Direct download</a><br>
+		Github repo: <a href="https://github.com/Mitsunee/Gen3DmgCalc">Github</a>
 		<hr><h3>Resources:</h3>
 		<span class="smol">Trainer Guides/Data</span><br>
 		<a href="https://docs.google.com/spreadsheets/d/1n7rmyMGOR9ishlC8LuXxKtSgnwNxOUY2XScyPvFnGqo/edit#gid=0">Sapphire</a><br>
