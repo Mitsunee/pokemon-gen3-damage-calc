@@ -144,7 +144,7 @@ var typeReference = {
 		bug:1,
 		dragon:1},
 	ghost:{
-		type:"Special",
+		type:"Physical",
 		none:1,
 		normal:0,
 		fire:1,
