@@ -36,7 +36,7 @@
 		</tr>
 		<tr>
 			<td>Offensive stat value:</td>
-			<td><input type="number" min="1" max="999" step="1" value="100" name="attackerAtkStat" oninput="DamageCalc();"></td>
+			<td><input type="number" min="1" max="999" step="1" value="125" name="attackerAtkStat" oninput="DamageCalc();"></td>
 		</tr>
 		<tr>
 			<td>Move's base power:</td>
@@ -54,11 +54,11 @@
 		<tr><td colspan="2"></td></tr>
 		<tr>
 			<td>Defensive stat value:</td>
-			<td><input type="number" min="1" max="999" step="1" value="100" name="defenderDefStat" oninput="DamageCalc();"></td>
+			<td><input type="number" min="1" max="999" step="1" value="80" name="defenderDefStat" oninput="DamageCalc();"></td>
 		</tr>
 		<tr>
 			<td>Current HP:</td>
-			<td><input type="number" min="1" max="999" step="1" value="250" name="defenderHPStat" oninput="DamageCalc();"></td>
+			<td><input type="number" min="1" max="999" step="1" value="150" name="defenderHPStat" oninput="DamageCalc();"></td>
 		</tr>
 		<tr>
 			<td>Defense stage:</td>
@@ -108,6 +108,7 @@
 		</tr>
 	</table>
 	<textarea name="outputarea" class="range" style="width:100%;height:50px;" onmouseup="$(this).select();" readonly></textarea>
+	<input type="checkbox" name="outputVerbose" id="outputVerbose"><label for="outputVerbose">Show all possible Damage numbers</label>
 </form></main>
 <!--Side Bar-->
 <aside>
@@ -134,7 +135,7 @@
 		</table>
 	</form>
 	<footer>
-		<span class="smol">Version 2.1.4 (added defensive Badgeboost)</span><br>
+		<span class="smol">Version 2.1.5 (added verbose output)</span><br>
 		<span class="smol">Original script by: G_heinz</span><br>
 		<span class="smol">Thx to: Darkwarrior, Stringflow</span>
 		<hr><h3>Other versions:</h3>

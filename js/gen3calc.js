@@ -12,6 +12,7 @@ function DamageCalc(){
 	HP = input.defenderHPStat.value;
 	defStage = input.defenderDefStage.value;
 	weathercheck = radioValue("weathercheck");
+	if(input.outputVerbose.checked) {outputVerbose=true;} else {outputVerbose=false;}
 		
 	////-- output part 1 --
 	output = "Level " + L + " ";
@@ -40,6 +41,11 @@ function DamageCalc(){
 		SM = 10 / (10 + (-5 * defStage));
 	}
 	D = Math.trunc(D*SM);//Apply defStage multiplier to defStat
+	if(outputVerbose) {
+		console.log("Attack stat after boosts: "+A);
+		console.log("Basepower after boosts: "+BP);
+		console.log("Defense stat after boosts: "+D);
+	}
 
 	////-- calculate base damage --
 	basedamage = Math.trunc(Math.trunc(Math.trunc(2*L/5+2)*A*BP/D)/50);
@@ -64,8 +70,13 @@ function DamageCalc(){
 
 	////-- damage rolls --
 	missedrange = 0;
+	possibleRolls = [];
 	for (i=85;i<101;i++) {
-		roll = Math.trunc((damage*i)/100)
+		roll = Math.trunc((damage*i)/100);
+		if(input.outputVerbose.checked) {
+			output += roll;
+			if(i != 100) output += ", ";
+		}
 		if(HP - roll > 0) missedrange += 1;
 	}
 	OHKO = 100 * ((16 - missedrange)/16);
@@ -75,9 +86,13 @@ function DamageCalc(){
 	percdamage = damage / HP * 100;
 	
 	////-- output part 2 --
-	output += minroll + " (" + percminroll + "%) ";
-	output += " - ";
-	output += damage + " (" + percdamage + "%)\n";
+	if(input.outputVerbose.checked) {
+		output += "\n"
+	} else {
+		output += minroll + " (" + percminroll + "%) ";
+		output += " - ";
+		output += damage + " (" + percdamage + "%)\n";
+	}
 	output += OHKO + "% chance to OHKO";
 	
 	////-- delivery --
