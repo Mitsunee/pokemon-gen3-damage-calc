@@ -59,7 +59,7 @@ function DamageCalc(){
 	} else if(lsrefcheck && doublecheck) {//Light Screen or Reflect apply hitting both targets
 		basedamage = Math.trunc((basedamage*2)/3)
 	}
-	if(doublecheck == "y") basedamage = Math.trunc(basedamage/2);
+	if(doublecheck) basedamage = Math.trunc(basedamage/2);
 	//Weather modifiers
 	if(weathercheck=="goodweather") basedamage = Math.trunc(basedamage*1.5);
 	if(weathercheck=="badweather") basedamage = Math.trunc(basedamage/2);
