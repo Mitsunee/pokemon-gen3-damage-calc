@@ -108,7 +108,14 @@
 		</tr>
 	</table>
 	<textarea name="outputarea" class="range" style="width:100%;height:50px;" onmouseup="$(this).select();" readonly></textarea>
-	<input type="checkbox" name="outputVerbose" id="outputVerbose"><label for="outputVerbose">Show all possible Damage numbers</label>
+	<table style="border:0px;">
+		<tr>
+			<td><input type="checkbox" name="outputVerbose" id="outputVerbose"></td>
+			<td><label for="outputVerbose">Show all possible Damage numbers</label></td>
+			<td><input type="checkbox" name="showCrits" id="showCrits"></td>
+			<td><label for="showCrits">Show critical hit rolls</label></td>
+		</tr>
+	</table>
 </form></main>
 <!--Side Bar-->
 <aside>
@@ -135,7 +142,7 @@
 		</table>
 	</form>
 	<footer>
-		<span class="smol">Version 2.1.5 (added verbose output)</span><br>
+		<span class="smol">Version 2.1.6 (added crits)</span><br>
 		<span class="smol">Original script by: G_heinz</span><br>
 		<span class="smol">Thx to: Darkwarrior, Stringflow</span>
 		<hr><h3>Other versions:</h3>
