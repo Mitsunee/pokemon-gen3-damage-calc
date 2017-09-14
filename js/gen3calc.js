@@ -13,6 +13,7 @@ function DamageCalc(){
 	defStage = input.defenderDefStage.value;
 	weathercheck = radioValue("weathercheck");
 	if(input.outputVerbose.checked) {outputVerbose=true;} else {outputVerbose=false;}
+	outputarea = input.outputarea;
 		
 	////-- output part 1 --
 	output = "Level " + L + " ";
@@ -39,7 +40,7 @@ function DamageCalc(){
 		SM = (10 + (5 * defStage)) / 10;
 	} else if(defStage < 0) {
 		SM = 10 / (10 + (-5 * defStage));
-	}
+	} else  SM = 1;
 	D = Math.trunc(D*SM);//Apply defStage multiplier to defStat
 	if(outputVerbose) {
 		console.log("Attack stat after boosts: "+A);
@@ -70,7 +71,6 @@ function DamageCalc(){
 
 	////-- damage rolls --
 	missedrange = 0;
-	possibleRolls = [];
 	for (i=85;i<101;i++) {
 		roll = Math.trunc((damage*i)/100);
 		if(input.outputVerbose.checked) {
@@ -94,9 +94,9 @@ function DamageCalc(){
 		output += damage + " (" + percdamage + "%)\n";
 	}
 	output += OHKO + "% chance to OHKO";
+	if(input.outputVerbose.checked) output += " (" + percminroll + "% to " + percdamage + "%)";
 	
 	////-- delivery --
-	outputarea = document.getElementsByName("outputarea")[0];
 	outputarea.innerHTML=output;
 	if(OHKO==0) {
 		outputarea.className="lives";
