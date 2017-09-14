@@ -106,7 +106,7 @@ function DamageCalc(){
 		D =0| D*SM;//Apply defStage multiplier to defStat
 		
 		////-- calculate base damage --
-		basedamage = Math.trunc(Math.trunc(Math.trunc(2*L/5+2)*A*BP/D)/50)*2;
+		basedamage = Math.trunc(Math.trunc(Math.trunc(2*L/5+2)*A*BP/D)/50);
 		
 		////-- Modifiers --
 		//LightScreen/Reflect and Double Battle modifiers
@@ -122,7 +122,7 @@ function DamageCalc(){
 		basedamage += 2;
 		//factor in STAB and type-effectiveness
 		if(input.stabcheck.checked) basedamage =0| basedamage*1.5;
-		damage =0| basedamage * radioValue("typeeffect");
+		damage =0| basedamage * radioValue("typeeffect") * 2;
 
 		////-- damage rolls --
 		missedrange = 0;
