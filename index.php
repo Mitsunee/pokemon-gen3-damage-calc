@@ -3,15 +3,15 @@
 <head>
 <title>Pokemon Generation 3 Damage Calculator</title>
 <meta charset="utf-8">
-<meta name="description" content="Javascript port of G_heinz' Generation 3 Damage Calculator for Pokemon Ruby, Sapphire, Emerald, Fire Red, Leaf Green and the Gamecube spin-offs.">
+<meta name="description" content="Damage Calculator for Pokemon Ruby, Sapphire, Emerald, Fire Red, Leaf Green and the Gamecube spin-offs.">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Pokemon Generation 3 Damage Calculator">
-<meta name="twitter:description" content="Javascript port of G_heinz' Generation 3 Damage Calculator for Pokemon Ruby, Sapphire, Emerald, Fire Red, Leaf Green and the Gamecube spin-offs.">
-<meta name="twitter:image" content="/i/gen3dmgcalc/384.png">
+<meta name="twitter:description" content="Damage Calculator for Pokemon Ruby, Sapphire, Emerald, Fire Red, Leaf Green and the Gamecube spin-offs.">
+<meta name="twitter:image" content="i/gen3dmgcalc/384.png">
 <meta name="twitter:creator" content="@Mitsunee">
 <meta property="og:title" content="Pokemon Generation 3 Damage Calculator">
-<meta property="og:image" content="/i/gen3dmgcalc/384.png">
-<meta property="og:description" content="Javascript port of G_heinz' Generation 3 Damage Calculator for Pokemon Ruby, Sapphire, Emerald, Fire Red, Leaf Green and the Gamecube spin-offs.">
+<meta property="og:image" content="i/gen3dmgcalc/384.png">
+<meta property="og:description" content="Damage Calculator for Pokemon Ruby, Sapphire, Emerald, Fire Red, Leaf Green and the Gamecube spin-offs.">
 <link href="/favicon.ico" rel="shortcut icon">
 <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
 <link href="style.css" rel="stylesheet">
@@ -87,7 +87,7 @@
 			<td><input type="checkbox" name="doublecheck" id="doublecheck"></td>
 			<td><label for="doublecheck" title="The damage of attacks that hit both targets in a double battle is split">Does the attack target both defending Pokemon?</label></td>
 			<td><input type="checkbox" name="stabcheck" id="stabcheck"></td>
-			<td><label for="stabcheck">Is the move STAB?</label></td>
+			<td><label for="stabcheck">Does the move get STAB?</label></td>
 		</tr>
 		<tr>
 			<td><input type="checkbox" name="lsrefcheck" id="lsrefcheck"></td>
@@ -98,7 +98,7 @@
 			<input type="radio" name="weathercheck" value="noweather" id="noweather" checked><label for="noweather" style="width:30%;">...not affected by weather</label>
 			<input type="radio" name="weathercheck" value="goodweather" id="goodweather"><label for="goodweather" style="width:30%;">...boosted by weather</label>
 			<input type="radio" name="weathercheck" value="badweather" id="badweather"><label for="badweather" style="width:30%;">...negatively affected by weather</label><br class="clear"></p>
-			<p>What is the type-effectiveness? <a onclick="$('#typeEffectHelp').show();">[Open Helper]</a><br>
+			<p>What is the type-effectiveness? <a onclick="$('#typeEffectHelp').slideDown();">[Open Helper]</a><br>
 			<input type="radio" name="typeeffect" value="0.25" id="025effective"><label for="025effective" style="width:5%;">0.25</label>
 			<input type="radio" name="typeeffect" value="0.5" id="05effective"><label for="05effective" style="width:5%;">0.5</label>
 			<input type="radio" name="typeeffect" value="1" id="1effective" checked><label for="1effective" style="width:5%;">1</label>
@@ -120,7 +120,7 @@
 <!--Side Bar-->
 <aside>
 	<form id="typeEffectHelp" style="display:none;">
-		<img src="i/unownx.gif" alt="Close" title="Close" onclick="$(this).parent().hide();" style="float:right;">
+		<img src="i/unownx.gif" alt="Close" title="Close" onclick="$(this).parent().slideUp();" style="float:right;">
 		<h3 style="text-align:center;">Type Effectiveness Helper</h3>
 		<table>
 			<tr>
@@ -142,11 +142,12 @@
 		</table>
 	</form>
 	<footer>
-		<span class="smol">Version 2.1.6 (added crits)</span><br>
+		<span class="smol">Version 3.0 (rewrite #2)</span><br>
 		<span class="smol">Original script by: G_heinz</span><br>
 		<span class="smol">Thx to: Darkwarrior, Stringflow</span>
 		<hr><h3>Other versions:</h3>
-		G_heinz' original python script (modified): <a href="http://pastebin.com/3ByqgxtP">Pastebin</a><br>
+		G_heinz' script (modified): <a href="http://pastebin.com/3ByqgxtP">Pastebin</a><br>
+		Source Code decompile: <a href="https://github.com/pret/pokeruby/blob/master/src/calculate_base_damage.c">on Github</a><br>
 		Stringflow's java port: <a href="/downloads/RSE_Damage_Calculator.zip">Direct download</a><br>
 		Github repo: <a href="https://github.com/Mitsunee/Gen3DmgCalc">Github</a>
 		<hr><h3>Resources:</h3>
