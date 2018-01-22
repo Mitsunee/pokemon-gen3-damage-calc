@@ -20,11 +20,14 @@
 <!-- Pretty code:
 <script src="js/radioValue.js"></script>
 <script src="js/typeEffect.js"></script>
-<script src="js/gen3calc.js"></script>-->
+<script src="js/gen3calc.js"></script>
+<script src="js/clipboard.js"></script>
+<script src="js/filesaver.js"></script>
+<script src="js/calc-collection.js"></script>-->
 </head>
 <body onload="DamageCalc();">
 <h1 style="text-align:center;"><img src="i/382.png" alt="K"> <img src="i/383.png" alt="G"> <img src="i/384.png" alt="R"> Damage Calculator for Generation 3 <img src="i/003.png" alt="V"> <img src="i/006.png" alt="C"> <img src="i/009.png" alt="B"></h1>
-<main><form id="calcInput" onchange="DamageCalc();return false;">
+<main><form id="calcInput" onchange="DamageCalc();return false;" action="javascript:void(0);">
 <!--	Basic stats		-->
 	<table class="pokemon"><!--	Attacker		-->
 		<tr>
@@ -107,7 +110,7 @@
 			</td>
 		</tr>
 	</table>
-	<textarea name="outputarea" class="range" style="width:100%;height:50px;" onmouseup="$(this).select();" readonly></textarea>
+	<textarea id="outputarea" name="outputarea" class="range" style="width:100%;height:50px;" onmouseup="$(this).select();" readonly></textarea>
 	<table style="border:0px;">
 		<tr>
 			<td><input type="checkbox" name="outputVerbose" id="outputVerbose"></td>
@@ -116,6 +119,21 @@
 			<td><label for="showCrits">Show critical hit rolls</label></td>
 		</tr>
 	</table>
+</form>
+<div id="save-options">
+	<button class="clip" data-clipboard-target="#outputarea">Copy to clipboard</button>
+	<button onclick="collectionSaveDialog();">Save to Collection</button>
+	<span id="collection-options" style="display:none;">
+		<button class="clip" data-clipboard-target="#collectionarea">Copy Collection to clipboard</button>
+		<button onclick="collectionSaveAs();">Save Collection as Text-File</button>
+		<button onclick="collectionClear();">Delete Collection</button>
+	</span>
+</div>
+<form id="save-dialog" action="javascript:void(0);" onsubmit="collectionAppendCurrent();" style="display:none;">
+		<input type="text" name="calcName" required><input type="submit" value="Save">
+</form>
+<form id="calc-collection" action="javascript:void(0);" style="display:none;">
+	<textarea id="collectionarea" name="collection" placeholder="Collection" onmouseup="$(this).select();" readonly></textarea>
 </form></main>
 <!--Side Bar-->
 <aside>
@@ -142,7 +160,7 @@
 		</table>
 	</form>
 	<footer>
-		<span class="smol">Version 3.0 (rewrite #2)</span><br>
+		<span class="smol">Version 3.1 (Collection)</span><br>
 		<span class="smol">Original script by: G_heinz</span><br>
 		<span class="smol">Thx to: Darkwarrior, Stringflow</span>
 		<hr><h3>Other versions:</h3>
@@ -198,5 +216,8 @@
 <img src="i/dragon.gif" alt="dragon" onclick="pickType('dragon');">
 </div>
 <!--Type Picker End-->
+<script>
+	var clipboard = new Clipboard('.clip');
+</script>
 </body>
 </html>

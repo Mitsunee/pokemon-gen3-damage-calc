@@ -30,8 +30,8 @@ footer,#typeEffectHelp{width:300px;}
 }
 #calcInput table.pokemon tr:last-of-type td{padding-bottom:10px;}
 #calcInput table.bonus-effects{width:100%;}
-input[type="number"]{
-	width:100px;
+input[type="number"]{width:100px;}
+input[type="number"],input[type="text"]{
 	border:1px inset #00B0F0;
 	background:#DDF0FF;
 	color:#0080B0;
@@ -41,13 +41,15 @@ textarea{
 	border-radius:8px;
 	box-sizing:border-box;
 	color:#121212;
-	min-height:56px;
-	max-height:102px;
 	min-width:796px;
 	max-width:796px;
 	margin-top:15px;
 	padding:4px;
 	overflow:hidden;
+}
+textarea#outputarea{
+	min-height:56px;
+	max-height:102px;
 }
 textarea.kill{
 	border:1px outset #00D080;
@@ -60,6 +62,10 @@ textarea.range{
 textarea.lives{
 	border:1px outset #D08080;
 	background:#F0EEEE;
+}
+#calc-collection textarea{
+	border:1px outset #00B0F0;
+	background:#DDF0FF;
 }
 th{
 	font-size:16px;
@@ -83,14 +89,17 @@ aside hr{border-top:1px solid #00B0F0;}
 .smol{font-size:12px;}
 a{color:#060 !important;text-decoration:none;}
 a:hover{text-decoration:underline;}
-input[type="button"]{
+input[type="button"],button,input[type="submit"]{
 	border:1px outset #00B0F0;
 	border-radius:8px;
 	background:#DDF0FF;
-	padding:2px;
 	color:#0080B0;
 }
-input[type="button"]:active,input[type="radio"]:not(:checked)+label:active {
+input+input[type="submit"]{
+	border-bottom-left-radius:0px;
+	border-top-left-radius:0px;
+}
+input[type="button"]:active,input[type="radio"]:not(:checked)+label:active,button:active,input[type="submit"]:active {
 	border:1px outset #005080;
 	background:#EFF;
 	color:#003080;
@@ -102,6 +111,7 @@ h1{
 }
 h3{margin:0.4em 3px;}
 .clear {clear:both;}
+
 
 /**CALC RADIOS**/
 main input[type="radio"]{display:none;}
