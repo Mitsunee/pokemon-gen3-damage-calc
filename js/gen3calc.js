@@ -107,7 +107,7 @@ function DamageCalc(){
 	if(weathercheck=="badweather")  damage.multiplier(0.5);//bad weather
 	damage.two();
 	if(input.stabcheck.checked) damage.multiplier(1.5);//+50% from STAB
-	damage.multiplier(radioValue("typeeffect"));//type effectiveness
+	damage.multiplier(input.typeeffect.value);//type effectiveness
 	
 	////-- Roll non-critical hit --
 	noncrit = damage.roll(input.defenderHPStat.value,damage.basedmg);

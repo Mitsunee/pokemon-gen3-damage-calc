@@ -140,8 +140,7 @@ p label:last-of-type {
 img[alt="R"],img[alt="V"]{transform:translateY(12px);}
 img[alt="K"],img[alt="B"]{transform:translateY(-12px);}
 
-/**Typeeffect helper**/
-#typeEffectHelp{margin-bottom:15px;}
+/**Typeeffect**/
 #MoveTypeText{position:relative;bottom:10px;left:10px;}
 #typePicker{
 	position:absolute;

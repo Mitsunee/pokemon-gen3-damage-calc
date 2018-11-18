@@ -14,13 +14,13 @@
 <meta property="og:description" content="Damage Calculator for Pokemon Ruby, Sapphire, Emerald, Fire Red, Leaf Green and the Gamecube spin-offs.">
 <link href="/favicon.ico" rel="shortcut icon">
 <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
-<link href="style.css" rel="stylesheet">
+<link href="style.css?_=<?php echo filemtime('style.css'); ?>" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script src="js/gen3calc.min.js"></script>
 <!-- Pretty code:
 <script src="js/radioValue.js"></script>
 <script src="js/typeEffect.js"></script>
-<script src="js/gen3calc.js"></script>
+<script src="js/gen3calc.js?_=<?php echo filemtime('js/gen3calc.js'); ?>"></script>
 <script src="js/clipboard.js"></script>
 <script src="js/filesaver.js"></script>
 <script src="js/calc-collection.js"></script>-->
@@ -50,7 +50,7 @@
 			<td><input type="number" name="attackerAtkStage" min="-6" max="6" step="1" value="0" oninput="DamageCalc();"></td>
 		</tr>
 	</table>
-	<table  class="pokemon"><!--	Defender		-->
+	<table class="pokemon"><!--	Defender		-->
 		<tr>
 			<th colspan="2">Defender<img src="i/def.png" alt="def" style="float:right;margin-right:12px;"></th>
 		</tr>
@@ -69,10 +69,29 @@
 		</tr>
 	</table>
 	<div class="clear"></div>
+	<table class="pokemon">
+		<tr>
+			<th colspan="2">Attack Type</th>
+		</tr>
+		<tr>
+			<td style="width:50%;text-align:center;"><img src="i/normal.gif" alt="AtkType" id="AtkTypeImg" onclick="openTypePicker('AtkType');"></td>
+			<td style="width:50%;text-align:center;"><img src="i/Physical.png" alt="MoveType" id="MoveType"><span id="MoveTypeText">Physical</span></td>
+		</tr>
+	</table>
+	<table class="pokemon">
+		<tr>
+			<th colspan="2">Defender Typing</th>
+		</tr>
+		<tr>
+				<td style="width:50%;text-align:center;"><img src="i/normal.gif" alt="DefTypeA" id="DefTypeAImg" onclick="openTypePicker('DefTypeA');"></td>
+				<td style="width:50%;text-align:center;"><img src="i/none.gif" alt="DefTypeB" id="DefTypeBImg" onclick="openTypePicker('DefTypeB');"></td>
+		</tr>
+	</table>
+	<div class="clear"></div>
 <!--	Bonus Effects		-->
 	<table class="bonus-effects">
 		<tr>
-			<th colspan="4">Bonus Effects and Type-Effectiveness<img src="i/star.png" alt="eff" style="float:right;margin-right:12px;"></th>
+			<th colspan="4">Bonus Effects<img src="i/star.png" alt="eff" style="float:right;margin-right:12px;"></th>
 		</tr>
 		<tr>
 			<td><input type="checkbox" name="badgeBoostAtk" id="badgeBoostAtk" onclick="document.getElementById('badgeBoostDef').checked = false;"></td>
@@ -101,12 +120,6 @@
 			<input type="radio" name="weathercheck" value="noweather" id="noweather" checked><label for="noweather" style="width:30%;">...not affected by weather</label>
 			<input type="radio" name="weathercheck" value="goodweather" id="goodweather"><label for="goodweather" style="width:30%;">...boosted by weather</label>
 			<input type="radio" name="weathercheck" value="badweather" id="badweather"><label for="badweather" style="width:30%;">...negatively affected by weather</label><br class="clear"></p>
-			<p>What is the type-effectiveness? <a onclick="$('#typeEffectHelp').slideDown();">[Open Helper]</a><br>
-			<input type="radio" name="typeeffect" value="0.25" id="025effective"><label for="025effective" style="width:5%;">0.25</label>
-			<input type="radio" name="typeeffect" value="0.5" id="05effective"><label for="05effective" style="width:5%;">0.5</label>
-			<input type="radio" name="typeeffect" value="1" id="1effective" checked><label for="1effective" style="width:5%;">1</label>
-			<input type="radio" name="typeeffect" value="2" id="2effective"><label for="2effective" style="width:5%;">2</label>
-			<input type="radio" name="typeeffect" value="4" id="4effective"><label for="4effective" style="width:5%;">4</label><br class="clear"></p>
 			</td>
 		</tr>
 	</table>
@@ -119,6 +132,7 @@
 			<td><label for="showCrits">Show critical hit rolls</label></td>
 		</tr>
 	</table>
+	<input type="hidden" name="typeeffect" id="typeeffect" value="1">
 </form>
 <div id="save-options">
 	<button class="clip" data-clipboard-target="#outputarea">Copy to clipboard</button>
@@ -137,28 +151,6 @@
 </form></main>
 <!--Side Bar-->
 <aside>
-	<form id="typeEffectHelp" style="display:none;">
-		<img src="i/unownx.gif" alt="Close" title="Close" onclick="$(this).parent().slideUp();" style="float:right;">
-		<h3 style="text-align:center;">Type Effectiveness Helper</h3>
-		<table>
-			<tr>
-				<td colspan="2">Attack Type:</td>
-			</tr>
-			<tr>
-				<td><img src="i/normal.gif" alt="AtkType" id="AtkTypeImg" onclick="openTypePicker('AtkType');"></td>
-				<td><img src="i/Physical.png" alt="MoveType" id="MoveType"><span id="MoveTypeText">Physical</span></td>
-			</tr>
-			<tr>
-				<td colspan="2">Defender Types:</td>
-			</tr>
-			<tr>
-				<td><img src="i/normal.gif" alt="DefTypeA" id="DefTypeAImg" onclick="openTypePicker('DefTypeA');"></td>
-				<td><img src="i/none.gif" alt="DefTypeB" id="DefTypeBImg" onclick="openTypePicker('DefTypeB');"></td>
-			</tr>
-			<tr>
-				<td>Effectiveness:</td><td id="typeEffectHelpOutput">1</td>
-		</table>
-	</form>
 	<footer>
 		<span class="smol">Version 3.1 (Collection)</span><br>
 		<span class="smol">Original script by: G_heinz</span><br>

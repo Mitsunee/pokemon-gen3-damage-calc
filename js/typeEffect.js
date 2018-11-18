@@ -367,45 +367,45 @@ var typeReference = {
 
 function openTypePicker(picking) {
 	pickerDIV = document.getElementById("typePicker");
-	if(picking=="AtkType"){
-		pickerDIV.getElementsByTagName("span")[0].innerHTML="Choose the Attack Type:";
-		pickerDIV.style.left="922px";
-		pickerDIV.style.top="134px";
-		currentPick = "AtkType";
-		$(pickerDIV.getElementsByTagName("img")[0]).hide();
-	} else if(picking=="DefTypeA") {
-		pickerDIV.getElementsByTagName("span")[0].innerHTML="Choose the Defender's first type:";
-		pickerDIV.style.left="922px";
-		pickerDIV.style.top="190px";
-		currentPick = "DefTypeA";
-		$(pickerDIV.getElementsByTagName("img")[0]).hide();
-	} else {
-		pickerDIV.getElementsByTagName("span")[0].innerHTML="Choose the Defender's secondary type:";
-		pickerDIV.style.left="1012px";
-		pickerDIV.style.top="190px";
-		currentPick = "DefTypeB";
-		$(pickerDIV.getElementsByTagName("img")[0]).show();
+	switch(picking){
+		case "AtkType":
+			pickerDIV.getElementsByTagName("span")[0].innerHTML="Choose the Attack Type:";
+			pickerDIV.style.left="172px";
+			break;
+		case "DefTypeA":
+			pickerDIV.getElementsByTagName("span")[0].innerHTML="Choose the Defender's first type:";
+			pickerDIV.style.left="572px";
+			break;
+		case "DefTypeB":
+			pickerDIV.getElementsByTagName("span")[0].innerHTML="Choose the Defender's secondary type:";
+			pickerDIV.style.left="718px";
+			break;
 	}
+	pickerDIV.style.top="336px";
+	currentPick = picking;
+	$(pickerDIV.getElementsByTagName("img")[0]).hide();
 	$(pickerDIV).show();
 	$(document.getElementById("typePicker-clicktrap")).show();
 }
 
 function pickType(pickedType) {
 	document.getElementById(currentPick+"Img").src="i/"+pickedType+".gif";
-	if(currentPick=="AtkType") {
-		AtkType=pickedType;
-		console.log("Picked AtkType ",pickedType);
-	} else if(currentPick=="DefTypeA") {
-		DefTypeA=pickedType;
-		console.log("Picked DefTypeA ",pickedType);
-	} else {
-		DefTypeB=pickedType;
-		console.log("Picked DefTypeB ",pickedType);
+	switch(currentPick) {
+		case "AtkType":
+			AtkType=pickedType;
+			break;
+		case "DefTypeA":
+			DefTypeA=pickedType;
+			break;
+		case "DefTypeB":
+			DefTypeB=pickedType;
+			break;
 	}
 	$('#typePicker').hide();
 	$('#typePicker-clicktrap').hide();
 	
-	document.getElementById("typeEffectHelpOutput").innerHTML=typeReference[AtkType][DefTypeA] * typeReference[AtkType][DefTypeB];
+	document.getElementById("typeeffect").value=typeReference[AtkType][DefTypeA] * typeReference[AtkType][DefTypeB];
 	document.getElementById("MoveType").src="i/"+typeReference[AtkType]["type"]+".png";
 	document.getElementById("MoveTypeText").innerHTML=typeReference[AtkType]["type"];
+	DamageCalc();
 }
