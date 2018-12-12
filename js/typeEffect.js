@@ -371,19 +371,21 @@ function openTypePicker(picking) {
 		case "AtkType":
 			pickerDIV.getElementsByTagName("span")[0].innerHTML="Choose the Attack Type:";
 			pickerDIV.style.left="172px";
+			$(pickerDIV.getElementsByTagName("img")[0]).hide();
 			break;
 		case "DefTypeA":
 			pickerDIV.getElementsByTagName("span")[0].innerHTML="Choose the Defender's first type:";
 			pickerDIV.style.left="572px";
+			$(pickerDIV.getElementsByTagName("img")[0]).hide();
 			break;
 		case "DefTypeB":
 			pickerDIV.getElementsByTagName("span")[0].innerHTML="Choose the Defender's secondary type:";
 			pickerDIV.style.left="718px";
+			$(pickerDIV.getElementsByTagName("img")[0]).show();
 			break;
 	}
 	pickerDIV.style.top="336px";
 	currentPick = picking;
-	$(pickerDIV.getElementsByTagName("img")[0]).hide();
 	$(pickerDIV).show();
 	$(document.getElementById("typePicker-clicktrap")).show();
 }
