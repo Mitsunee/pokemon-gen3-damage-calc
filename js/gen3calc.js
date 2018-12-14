@@ -18,27 +18,28 @@ var damage = {
 		dS = input.defenderDefStage.value;
 		L = input.attackerLevel.value;
 		//AtkStages
-		if(aS > 0) {
-			SM = (10 + (5 * aS)) / 10;
-		} else if(aS < 0) {
-			SM = 10 / (10 + (-5 * aS));
-		} else  SM = 1;
-		A =0| A*SM;//Apply atkStage multiplier to atkStat
-		
-		//DefStages (seperated because critical hits ignore positive defStages)
-		if(dS < 0) {
-			SM = 10 / (10 + (-5 * dS));
-			D =0| D*SM;
+		switch(true) {
+			case (aS > 0): 
+				aSM = (10 + (5 * aS)) / 10;break;
+			case (aS < 0):
+				aSM = 10 / (10 + (-5 * aS));break;
+			default:
+				aSM = 1;
 		}
-		//set critical hit basedmg
-		this.critdmg =0| Math.trunc(Math.trunc(2*L/5+2)*A*BP/D)/50;
 		
-		if(dS > 0) {//positive defStage
-			SM = (10 + (5 * dS)) / 10;
-			D =0| D*SM;
+		//DefStages
+		switch(true) {
+			case (dS < 0):
+				dSM = 10 / (10 + (-5 * dS));break;
+			case (dS > 0):
+				dSM = (10 + (5 * dS)) / 10;break;
+			default:
+				dSM = 1;
 		}
-		//set non-critical basedmg
-		this.basedmg =0| Math.trunc(Math.trunc(2*L/5+2)*A*BP/D)/50;
+		
+		//set basedmg
+		this.basedmg =0| Math.trunc(Math.trunc(2*L/5+2)*(A*aSM)*BP/(D*dSM))/50;
+		this.critdmg =0| Math.trunc(Math.trunc(2*L/5+2)*(A*(aS <= 0 ? 1 : aSM))*BP/(D*(dS >= 0 ? 1 : dSM)))/50;//only applies atkstages if > 0 and defstages if < 0
 	},
 	two : function() {
 		// description: adds 2, because the source code does that.
