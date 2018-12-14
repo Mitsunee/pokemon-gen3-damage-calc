@@ -16,7 +16,7 @@
 <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
 <link href="style.css?_=<?php echo filemtime('style.css'); ?>" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script src="js/gen3calc.min.js"></script>
+<script src="js/gen3calc.min.js?_=<?php echo filemtime('js/gen3calc.min.js'); ?>"></script>
 <!-- Pretty code:
 <script src="js/radioValue.js"></script>
 <script src="js/typeEffect.js"></script>
