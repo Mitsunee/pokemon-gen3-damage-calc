@@ -9,6 +9,7 @@ function pokeSearch(that) {//that is the calling form element's this
 	}
 	if(that.value == "") {
 		for(let i of haystack) i.style.display="table-row";//show all rows
+		$("#defender-icon")[0].src="i/mons/icons/000.png";
 		return false;
 	}
 	for(let i of haystack) {
@@ -18,4 +19,27 @@ function pokeSearch(that) {//that is the calling form element's this
 			i.style.display="none";
 		}
 	}
+}
+function pokeSearchPick(that,what) {//that is the selected pokemon's this, what is currently always "defender" until I add more stuff LOL
+	//validate proper use of function
+	let who = that.dataset,
+		where;
+	switch(what) {
+		case "defender":
+			where = [document.getElementById("defender-name"),document.querySelector("#defender-name+img")];
+			break;
+		default:
+			return false;
+	}
+	//fill data
+	where[0].value=who.pokemonname;
+	where[1].src="i/mons/icons/"+who.pokemonid+".png";
+	let type = who.pokemontype.split(",");
+	currentPick="DefTypeA";
+	pickType(type[0],false);
+	currentPick="DefTypeB";
+	pickType(type[1],false);
+	
+	//blur
+	// where[0].blur();
 }

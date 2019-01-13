@@ -390,7 +390,7 @@ function openTypePicker(picking) {
 	$(document.getElementById("typePicker-clicktrap")).show();
 }
 
-function pickType(pickedType) {
+function pickType(pickedType,replaceIcon) {
 	document.getElementById(currentPick+"Img").src="i/"+pickedType+".gif";
 	switch(currentPick) {
 		case "AtkType":
@@ -398,9 +398,11 @@ function pickType(pickedType) {
 			break;
 		case "DefTypeA":
 			DefTypeA=pickedType;
+			if(replaceIcon!==false) $("#defender-icon")[0].src="i/mons/icons/000.png"; 
 			break;
 		case "DefTypeB":
 			DefTypeB=pickedType;
+			if(replaceIcon!==false) $("#defender-icon")[0].src="i/mons/icons/000.png"; 
 			break;
 	}
 	$('#typePicker').hide();

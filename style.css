@@ -31,13 +31,13 @@ footer,#typeEffectHelp{width:300px;}
 }
 #calcInput table.pokemon tr:last-of-type td{padding-bottom:10px;}
 #calcInput table.bonus-effects{width:100%;}
-input[type="number"],input.defender-name{width:100px;}
+input[type="number"],input#defender-name{width:100px;}
 input[type="number"],input[type="text"]{
 	border:1px inset #00B0F0;
 	background:#DDF0FF;
 	color:#0080B0;
 }
-input.defender-name+img{width:32px;height:32px;margin:-16px -16px 0px 0px;position:relative;top:-25px;left:-5px;}
+input#defender-name+img{width:32px;height:32px;margin:-16px -16px 0px 0px;position:relative;top:-25px;left:-5px;}
 
 input,textarea{user-select:unset !important;}
 
@@ -167,10 +167,12 @@ img[alt="K"],img[alt="B"]{transform:translateY(-12px);}
 	border:1px outset #00B0F0;
 	background:#DDF0FF;
 }
-#search-defender>table {
-	width:100%;
-	border-collapse: collapse;
-}
+#search-defender>table {border-collapse: collapse;}
+#search-defender>table tr>td:nth-child(1) {width:36px;}
+#search-defender>table tr>td:nth-child(2) {width:45px;}
+#search-defender>table tr>td:nth-child(3) {width:128px;}
+#search-defender>table tr>td:nth-child(4) {width:37px;}
+#search-defender>table tr>td:nth-child(5) {width:37px;}
 #search-defender table img {
 	height:32px;
 	width:32px;
@@ -182,4 +184,10 @@ img[alt="K"],img[alt="B"]{transform:translateY(-12px);}
 #search-defender table tr:hover {
 	background:rgba(0,80,200,.33);
 	color:#006090;
+}
+#search-defender-empty-result {
+	padding:0 12px 12px 12px;
+}
+#search-defender-empty-result>img {
+	margin:0 8px -8px 0;
 }

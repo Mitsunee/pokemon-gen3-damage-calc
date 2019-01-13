@@ -58,7 +58,7 @@ Pretty code:-->
 		</tr>
 		<tr>
 			<td>Defender:</td>
-			<td><input type="text" class="defender-name" name="defenderName" onfocus="$('#search-defender').show();" onblur="$('#search-defender').hide();" oninput="pokeSearch(this);"><img src="i/mons/icons/000.png" id="defender-icon"></td>
+			<td><input type="text" id="defender-name" name="defenderName" onfocus="$('#search-defender').show();" onblur="$('#search-defender').hide();" oninput="pokeSearch(this);"><img src="i/mons/icons/000.png" id="defender-icon"></td>
 		</tr>
 		<tr>
 			<td>Defensive stat value:</td>
@@ -211,24 +211,25 @@ Pretty code:-->
 </div>
 <!--Type Picker End-->
 <!--Defender Search-->
-<div id="search-defender" style="position:fixed;left:653px;top:155px;">
+<div id="search-defender" style="position:fixed;left:653px;top:155px;display:none;">
 	<table>
 	<?php
 		$json = file_get_contents("js/pokestats.json");
 		$data = json_decode($json,true);
 		foreach($data["pokemon"] as $pokemon) {
-			echo "<tr data-pokemonname=\"".$pokemon["name"]."\" data-pokemonid=\"".$pokemon["id"]."\">".PHP_EOL;
-			echo "<td><img src=\"i/mons/icons/".$pokemon["id"].".png\"></td>".PHP_EOL;
-			echo "<td>".$pokemon["id"]."</td>".PHP_EOL;
-			echo "<td colspan=\"4\">".$pokemon["name"]."</td>".PHP_EOL;
-			echo "<td";
+			echo '<tr data-pokemonname="'.$pokemon["name"].'" data-pokemonid="'.$pokemon["id"].'" data-pokemontype="'.$pokemon["type"][0].','.$pokemon["type"][1].'"'." onmousedown=\"pokeSearchPick(this,'defender')\">".PHP_EOL;
+			echo '<td><img src="i/mons/icons/'.$pokemon["id"].'.png"></td>'.PHP_EOL;
+			echo '<td>'.$pokemon["id"].'</td>'.PHP_EOL;
+			echo '<td colspan="4">'.$pokemon["name"].'</td>'.PHP_EOL;
+			echo '<td';
 			if ($pokemon["type"][1]=="none") echo ' colspan="2"';
-			echo "><img src=\"i/".$pokemon["type"][0].".gif\" alt=\"".$pokemon["type"][0]."\" class=\"poketype\"></td>".PHP_EOL;
-			if ($pokemon["type"][1]!="none") echo "<td><img src=\"i/".$pokemon["type"][1].".gif\" alt=\"".$pokemon["type"][1]."\" class=\"poketype\"></td>".PHP_EOL;
-			echo "</tr>".PHP_EOL;
+			echo '><img src="i/'.$pokemon["type"][0].'.gif" alt="'.$pokemon["type"][0].'" class="poketype"></td>'.PHP_EOL;
+			if ($pokemon["type"][1]!="none") echo '<td><img src="i/'.$pokemon["type"][1].'.gif" alt="'.$pokemon["type"][1].'" class="poketype"></td>'.PHP_EOL;
+			echo '</tr>'.PHP_EOL;
 		}
 	?>
 	</table>
+	<div id="search-defender-empty-result"><img src="i/mons/icons/000.png" alt="000"> Couldn't find any Pokemon.</div>
 </div>
 <script>
 	var clipboard = new Clipboard('.clip');
