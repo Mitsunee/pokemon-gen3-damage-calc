@@ -3,6 +3,7 @@ body{
 	font-family:'Lato',sans-serif;
 	line-height:1.1em;
 	background:url('i/bg.png') #7dad71 top center repeat-x;
+	user-select:none;
 }
 
 /**MAIN AREAS**/
@@ -30,12 +31,15 @@ footer,#typeEffectHelp{width:300px;}
 }
 #calcInput table.pokemon tr:last-of-type td{padding-bottom:10px;}
 #calcInput table.bonus-effects{width:100%;}
-input[type="number"]{width:100px;}
+input[type="number"],input.defender-name{width:100px;}
 input[type="number"],input[type="text"]{
 	border:1px inset #00B0F0;
 	background:#DDF0FF;
 	color:#0080B0;
 }
+input.defender-name+img{width:32px;height:32px;margin:-16px -16px 0px 0px;position:relative;top:-25px;left:-5px;}
+
+input,textarea{user-select:unset !important;}
 
 textarea{
 	border-radius:8px;
@@ -152,3 +156,25 @@ img[alt="K"],img[alt="B"]{transform:translateY(-12px);}
 	font-size:12px;
 }
 #typePicker img {width:32px;height:16px;}
+
+/**Search**/
+#search-defender{
+	width:300px;
+	height:420px;
+	overflow-x:hidden;
+	overflow-y:scroll;
+	color:#0080B0;
+	border:1px outset #00B0F0;
+	background:#DDF0FF;
+}
+#search-defender>table {
+	width:100%;
+}
+#search-defender table img {
+	height:32px;
+	width:32px;
+}
+#search-defender table img.poketype {
+	height:16px;
+	width:auto;
+}

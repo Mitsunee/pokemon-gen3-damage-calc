@@ -24,6 +24,7 @@ Pretty code:-->
 <script src="js/clipboard.js"></script>
 <script src="js/filesaver.js"></script>
 <script src="js/calc-collection.js"></script>
+<script src="js/pokemonSearch.js"></script>
 </head>
 <body onload="DamageCalc();">
 <h1 style="text-align:center;"><img src="i/mons/icons/382.png" alt="K"> <img src="i/mons/icons/383.png" alt="G"> <img src="i/mons/icons/384.png" alt="R"> Damage Calculator for Generation 3 <img src="i/mons/icons/003.png" alt="V"> <img src="i/mons/icons/006.png" alt="C"> <img src="i/mons/icons/009.png" alt="B"></h1>
@@ -52,9 +53,12 @@ Pretty code:-->
 	</table>
 	<table class="pokemon"><!--	Defender		-->
 		<tr>
-			<th colspan="2">Defender<img src="i/def.png" alt="def" style="float:right;margin-right:12px;"></th>
+			<th colspan="2">Defender</th>
 		</tr>
-		<tr><td colspan="2"></td></tr>
+		<tr>
+			<td>Defender:</td>
+			<td><input type="text" class="defender-name" name="defenderName" onfocus="$('#search-defender').show();" onblur="$('#search-defender').hide();" oninput="pokeSearch(this);"><img src="i/mons/icons/000.png" id="defender-icon"></td>
+		</tr>
 		<tr>
 			<td>Defensive stat value:</td>
 			<td><input type="number" min="1" max="999" step="1" value="80" name="defenderDefStat" oninput="DamageCalc();"></td>
@@ -205,6 +209,26 @@ Pretty code:-->
 <img src="i/dragon.gif" alt="dragon" onclick="pickType('dragon');">
 </div>
 <!--Type Picker End-->
+<!--Defender Search-->
+<div id="search-defender" style="position:fixed;left:653px;top:155px;">
+	<table>
+	<?php
+		$json = file_get_contents("js/pokestats.json");
+		$data = json_decode($json,true);
+		foreach($data["pokemon"] as $pokemon) {
+			echo "<tr data-pokemonname=\"".$pokemon["name"]."\" data-pokemonid=\"".$pokemon["id"]."\">".PHP_EOL;
+			echo "<td><img src=\"i/mons/icons/".$pokemon["id"].".png\"></td>".PHP_EOL;
+			echo "<td>".$pokemon["id"]."</td>".PHP_EOL;
+			echo "<td colspan=\"4\">".$pokemon["name"]."</td>".PHP_EOL;
+			echo "<td";
+			if ($pokemon["type"][1]=="none") echo ' colspan="2"';
+			echo "><img src=\"i/".$pokemon["type"][0].".gif\" alt=\"".$pokemon["type"][0]."\" class=\"poketype\"></td>".PHP_EOL;
+			if ($pokemon["type"][1]!="none") echo "<td><img src=\"i/".$pokemon["type"][1].".gif\" alt=\"".$pokemon["type"][1]."\" class=\"poketype\"></td>".PHP_EOL;
+			echo "</tr>".PHP_EOL;
+		}
+	?>
+	</table>
+</div>
 <script>
 	var clipboard = new Clipboard('.clip');
 </script>
