@@ -16,8 +16,8 @@
 <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
 <link href="style.css?_=<?php echo filemtime('style.css'); ?>" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<!-- <script src="js/gen3calc.min.js?_=<?php echo filemtime('js/gen3calc.min.js'); ?>"></script>
-Pretty code:-->
+<script src="js/gen3calc.min.js?_=<?php echo filemtime('js/gen3calc.min.js'); ?>"></script>
+<!-- Pretty code:
 <script src="js/radioValue.js"></script>
 <script src="js/typeEffect.js"></script>
 <script src="js/gen3calc.js?_=<?php echo filemtime('js/gen3calc.js'); ?>"></script>
@@ -25,7 +25,7 @@ Pretty code:-->
 <script src="js/filesaver.js"></script>
 <script src="js/calc-collection.js"></script>
 <script src="js/pokemonSearch.js"></script>
-<script src="js/ejs-string.min.js"></script>
+<script src="js/ejs-string.min.js"></script>-->
 </head>
 <body onload="DamageCalc();">
 <h1 style="text-align:center;"><img src="i/mons/icons/382.png" alt="K"> <img src="i/mons/icons/383.png" alt="G"> <img src="i/mons/icons/384.png" alt="R"> Damage Calculator for Generation 3 <img src="i/mons/icons/003.png" alt="V"> <img src="i/mons/icons/006.png" alt="C"> <img src="i/mons/icons/009.png" alt="B"></h1>
