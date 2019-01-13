@@ -7,26 +7,26 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Pokemon Generation 3 Damage Calculator">
 <meta name="twitter:description" content="Damage Calculator for Pokemon Ruby, Sapphire, Emerald, Fire Red, Leaf Green and the Gamecube spin-offs.">
-<meta name="twitter:image" content="i/gen3dmgcalc/384.png">
+<meta name="twitter:image" content="i/sprites/384.png">
 <meta name="twitter:creator" content="@Mitsunee">
 <meta property="og:title" content="Pokemon Generation 3 Damage Calculator">
-<meta property="og:image" content="i/gen3dmgcalc/384.png">
+<meta property="og:image" content="i/sprites/384.png">
 <meta property="og:description" content="Damage Calculator for Pokemon Ruby, Sapphire, Emerald, Fire Red, Leaf Green and the Gamecube spin-offs.">
 <link href="/favicon.ico" rel="shortcut icon">
 <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
 <link href="style.css?_=<?php echo filemtime('style.css'); ?>" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script src="js/gen3calc.min.js?_=<?php echo filemtime('js/gen3calc.min.js'); ?>"></script>
-<!-- Pretty code:
+<!-- <script src="js/gen3calc.min.js?_=<?php echo filemtime('js/gen3calc.min.js'); ?>"></script>
+Pretty code:-->
 <script src="js/radioValue.js"></script>
 <script src="js/typeEffect.js"></script>
 <script src="js/gen3calc.js?_=<?php echo filemtime('js/gen3calc.js'); ?>"></script>
 <script src="js/clipboard.js"></script>
 <script src="js/filesaver.js"></script>
-<script src="js/calc-collection.js"></script>-->
+<script src="js/calc-collection.js"></script>
 </head>
 <body onload="DamageCalc();">
-<h1 style="text-align:center;"><img src="i/382.png" alt="K"> <img src="i/383.png" alt="G"> <img src="i/384.png" alt="R"> Damage Calculator for Generation 3 <img src="i/003.png" alt="V"> <img src="i/006.png" alt="C"> <img src="i/009.png" alt="B"></h1>
+<h1 style="text-align:center;"><img src="i/mons/icons/382.png" alt="K"> <img src="i/mons/icons/383.png" alt="G"> <img src="i/mons/icons/384.png" alt="R"> Damage Calculator for Generation 3 <img src="i/mons/icons/003.png" alt="V"> <img src="i/mons/icons/006.png" alt="C"> <img src="i/mons/icons/009.png" alt="B"></h1>
 <main><form id="calcInput" onchange="DamageCalc();return false;" action="javascript:void(0);">
 <!--	Basic stats		-->
 	<table class="pokemon"><!--	Attacker		-->
@@ -152,13 +152,10 @@
 <!--Side Bar-->
 <aside>
 	<footer>
-		<span class="smol">Version 3.1 (Collection)</span><br>
-		<span class="smol">Original script by: G_heinz</span><br>
-		<span class="smol">Thx to: Darkwarrior, Stringflow</span>
-		<hr><h3>Other versions:</h3>
-		G_heinz' script (modified): <a href="http://pastebin.com/3ByqgxtP">Pastebin</a><br>
-		Source Code decompile: <a href="https://github.com/pret/pokeruby/blob/master/src/calculate_base_damage.c">on Github</a><br>
-		Stringflow's java port: <a href="/downloads/RSE_Damage_Calculator.zip">Direct download</a><br>
+		<span class="smol">Version 3.2 (Search)</span><br>
+		<span class="smol">Thx to: G_heinz, Stringflow</span>
+		<hr><h3>Stuff:</h3>
+		Source Code disassembly: <a href="https://github.com/pret/pokeruby/blob/master/src/calculate_base_damage.c">on Github</a><br>
 		Github repo: <a href="https://github.com/Mitsunee/Gen3DmgCalc">Github</a>
 		<hr><h3>Resources:</h3>
 		<span class="smol">Trainer Guides/Data</span><br>
@@ -172,12 +169,12 @@
 		<table style="width:100%;" id="psr-icons">
 			<tr>
 				<td rowspan="2" style="text-align:center;"><a href="http://www.pokemonspeedruns.com/"><img src="i/psrico.png" alt="Pokemon Speedruns" title="Pokemon Speedruns" style="width:95px;height:auto;"></a></td>
-				<td><a href="http://www.speedrun.com/pkmnrubysapphire"><img src="i/382.png" alt="Pokemon Sapphire" title="Pokemon Sapphire"></a></td>
-				<td><a href="http://www.speedrun.com/pkmnemerald"><img src="i/384.png" alt="Pokemon Emerald" title="Pokemon Emerald"></a></td>
-				<td><a href="http://www.speedrun.com/pkmnfrlg"><img src="i/006.png" alt="Pokemon Fire Red" title="Pokemon Fire Red"></a></td>
+				<td><a href="http://www.speedrun.com/pkmnrubysapphire"><img src="i/mons/icons/382.png" alt="Pokemon Sapphire" title="Pokemon Sapphire"></a></td>
+				<td><a href="http://www.speedrun.com/pkmnemerald"><img src="i/mons/icons/384.png" alt="Pokemon Emerald" title="Pokemon Emerald"></a></td>
+				<td><a href="http://www.speedrun.com/pkmnfrlg"><img src="i/mons/icons/006.png" alt="Pokemon Fire Red" title="Pokemon Fire Red"></a></td>
 			</tr>
 			<tr>
-				<td><a href="http://www.speedrun.com/pkmncolosseum"><img src="i/250.png" alt="Pokemon Colosseum" title="Pokemon Colosseum"></a></td>
+				<td><a href="http://www.speedrun.com/pkmncolosseum"><img src="i/mons/icons/250.png" alt="Pokemon Colosseum" title="Pokemon Colosseum"></a></td>
 				<td><a href="http://www.speedrun.com/pkmnxd"><img src="i/249s.png" alt="Pokemon XD Gale Of Darkness" title="Pokemon XD Gale Of Darkness"></a></td>
 				<td><a href="http://www.speedrun.com/pmdredblue"><img src="i/300md.png" alt="Pokemon Mystery Dungeon" title="Pokemon Mystery Dungeon"></a></td>
 			</tr>
