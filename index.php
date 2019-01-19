@@ -120,7 +120,7 @@ if(!isset($_GET["dev"])) {
 		</tr>
 		<tr>
 			<td><input type="checkbox" name="lsrefcheck" id="lsrefcheck"></td>
-			<td colspan="3"><label for="lsrefcheck" title="Reference the Type Effectiveness Helper if you're unsure about the damage type of your attack">Does Light Screen or Reflect apply? <i>(Light Screen for special attacks, Reflect for physical attacks)</i></label>
+			<td colspan="3"><label for="lsrefcheck" id="lsreflabel">Does Reflect apply?</label>
 		</tr>
 		<tr>
 			<td colspan="4"><p>The move is...<br>

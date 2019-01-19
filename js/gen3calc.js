@@ -622,6 +622,11 @@ function pickType(pickedType,replaceIcon) {
 	switch(currentPick) {
 		case "AtkType":
 			AtkType=pickedType;
+			if(typeReference[pickedType].type=="Physical") {
+				$("#lsreflabel")[0].innerHTML="Does Reflect apply?";
+			} else {
+				$("#lsreflabel")[0].innerHTML="Does Light Screen apply?";
+			}
 			break;
 		case "DefTypeA":
 			DefTypeA=pickedType;
