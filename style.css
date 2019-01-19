@@ -30,17 +30,21 @@ footer,#typeEffectHelp{width:300px;}
 	margin:0px 50px 15px 50px;
 }
 #calcInput table.pokemon tr:last-of-type td{padding-bottom:10px;}
+#calcInput table.pokemon tr>td:last-of-type{width:128px;}
 #calcInput table.bonus-effects{width:100%;}
-input[type="number"],input#defender-name{width:100px;}
+input[type="number"],input#attacker-name,input#defender-name{width:100px;}
 input[type="number"],input[type="text"]{
 	border:1px inset #00B0F0;
 	background:#DDF0FF;
 	color:#0080B0;
 }
-input#defender-name+img{width:32px;height:32px;margin:-16px -16px 0px 0px;position:relative;top:-25px;left:-5px;}
+#attacker-icon,#defender-icon{
+	float:right;
+	margin:-10px 12px -10px 0px;"
+}
 
+/** IO AREAS **/
 input,textarea{user-select:unset !important;}
-
 textarea{
 	border-radius:8px;
 	box-sizing:border-box;
@@ -71,6 +75,8 @@ textarea.lives{
 	border:1px outset #00B0F0;
 	background:#DDF0FF;
 }
+
+/** GENERIC **/
 th{
 	font-size:16px;
 	font-weight:700;
@@ -81,7 +87,6 @@ td{
 	height:24px;min-height:24px;max-height:24px;
 	vertical-align:middle;
 	text-align:left;
-	/**font-family:'Courier New',monospace;**/
 }
 aside {
 	position:absolute;
@@ -129,22 +134,27 @@ main input[type="radio"]+label{
 	border:1px outset #00B0F0;
 	background:#EFF;
 	text-align:center;
+    box-sizing: border-box;
 }
 main input[type="radio"]:not(:checked)+label{opacity:0.33;}
 main input[type="radio"]:not(:checked)+label:hover{opacity:0.75;}
-main input[type="radio"]:checked+label      {opacity:1;}
-p label:first-of-type {
+main input[type="radio"]:checked+label{opacity:1;}
+p label:first-of-type,td label:first-of-type {
 	border-top-left-radius:8px;
 	border-bottom-left-radius:8px;
 }
-p label:last-of-type {
+p label:last-of-type,td label:last-of-type {
 	border-top-right-radius:8px;
 	border-bottom-right-radius:8px;
 }
 img[alt="R"],img[alt="V"]{transform:translateY(12px);}
 img[alt="K"],img[alt="B"]{transform:translateY(-12px);}
 
-/**Typeeffect**/
+/**ADVANCEDMODE**/
+form.advanced-enabled table.pokemon tr.advanced-only,form:not(.advanced-enabled) table.pokemon tr.basic-only {display:table-row;}
+form:not(.advanced-enabled) table.pokemon tr.advanced-only, form.advanced-enabled table.pokemon tr.basic-only {display:none;}
+
+/**TYPEEFFECTIVENESS**/
 #MoveTypeText{position:relative;bottom:10px;left:10px;}
 #typePicker{
 	position:absolute;
@@ -157,8 +167,8 @@ img[alt="K"],img[alt="B"]{transform:translateY(-12px);}
 }
 #typePicker img {width:32px;height:16px;}
 
-/**Search**/
-#search-defender{
+/**SEARCH**/
+div.pokeSearch{
 	width:300px;
 	max-height:420px;
 	overflow-x:hidden;
@@ -167,27 +177,27 @@ img[alt="K"],img[alt="B"]{transform:translateY(-12px);}
 	border:1px outset #00B0F0;
 	background:#DDF0FF;
 }
-#search-defender>table {border-collapse: collapse;}
-#search-defender>table tr>td:nth-child(1) {width:36px;}
-#search-defender>table tr>td:nth-child(2) {width:45px;}
-#search-defender>table tr>td:nth-child(3) {width:128px;}
-#search-defender>table tr>td:nth-child(4) {width:37px;}
-#search-defender>table tr>td:nth-child(5) {width:37px;}
-#search-defender table img {
+div.pokeSearch>table {border-collapse: collapse;}
+div.pokeSearch>table tr>td:nth-child(1) {width:36px;}
+div.pokeSearch>table tr>td:nth-child(2) {width:45px;}
+div.pokeSearch>table tr>td:nth-child(3) {width:128px;}
+div.pokeSearch>table tr>td:nth-child(4) {width:37px;}
+div.pokeSearch>table tr>td:nth-child(5) {width:37px;}
+div.pokeSearch table img {
 	height:32px;
 	width:32px;
 }
-#search-defender table img.poketype {
+div.pokeSearch table img.poketype {
 	height:16px;
 	width:auto;
 }
-#search-defender table tr:hover {
+div.pokeSearch table tr:hover {
 	background:rgba(0,80,200,.33);
 	color:#006090;
 }
-#search-defender-empty-result {
+div.pokeSearch-empty-result {
 	padding:0 12px 12px 12px;
 }
-#search-defender-empty-result>img {
+div.pokeSearch-empty-result>img {
 	margin:0 8px -8px 0;
 }

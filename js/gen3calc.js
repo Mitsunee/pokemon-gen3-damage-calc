@@ -1,5 +1,6 @@
 //SETUP VARS
 var input = undefined,//Get form elements
+	advMode = false,
 	currentPick = "AtkType",
 	AtkType = "normal",
 	DefTypeA = "normal",
@@ -397,9 +398,13 @@ function DamageCalc(){
 	////-- output[0]: Repeat information for reference --
 	let summary = "[Level " + input.attackerLevel.value + " ";
 	if(aS>=0) summary += "+";
-	summary += aS + " " + ATK + " with " + basePower + "BP" + "] vs [";
+	summary += aS + " " + ATK + " ";
+	if(input.attackerDataset.value!="") summary += input.attackerDataset.value.split(",")[0]+" ";
+	summary += "with " + basePower + "BP" + "] vs [";
 	if(dS>=0) summary += "+";
-	summary += dS + " " + DEF + " with " + input.defenderHPStat.value + "HP]";
+	summary += dS + " " + DEF + " ";
+	if(input.defenderDataset.value!="") summary += input.defenderDataset.value.split(",")[0]+" ";
+	summary += "with " + input.defenderHPStat.value + "HP]";
 	let output = summary+"\n";
 	
 	////-- modify stats based boost --
@@ -543,9 +548,17 @@ function DamageCalc(){
 function pokeSearch(that) {//that is the calling form element's this
 	let haystack,icon,errorDiv;
 	switch(that.name) {
+		case "attackerName":
+			haystack = document.querySelector("#search-attacker>table>tbody").children;
+			icon=$("#attacker-icon")[0];
+			dataset=$("#attacker-dataset")[0];
+			errorDiv=$("#search-attacker-empty-result");
+			errorDiv.hide();
+			break;
 		case "defenderName":
 			haystack = document.querySelector("#search-defender>table>tbody").children;
 			icon=$("#defender-icon")[0];
+			dataset=$("#defender-dataset")[0];
 			errorDiv=$("#search-defender-empty-result");
 			errorDiv.hide();
 			break;
@@ -554,7 +567,6 @@ function pokeSearch(that) {//that is the calling form element's this
 	}
 	if(that.value == "") {
 		for(let i of haystack) i.style.display="table-row";//show all rows
-		icon.src="i/mons/icons/000.png";
 		return false;
 	}
 	let foundMon=false;
@@ -567,14 +579,19 @@ function pokeSearch(that) {//that is the calling form element's this
 		}
 	}
 	if(foundMon==false) errorDiv.show();
+	icon.src="i/mons/icons/000.png";
+	dataset.value="";
+	DamageCalc();
 }
-function pokeSearchPick(that,what) {//that is the selected pokemon's this, what is currently always "defender" until I add more stuff LOL
+function pokeSearchPick(that,what) {//that is the selected pokemon's this
 	//validate proper use of function
-	let who = that.dataset,
-		where;
+	let who = that.dataset,where;
 	switch(what) {
+		case "attacker":
+			where = [document.getElementById("attacker-name"),document.getElementById("attacker-icon"),document.getElementById("attacker-dataset")];
+			break;
 		case "defender":
-			where = [document.getElementById("defender-name"),document.querySelector("#defender-name+img")];
+			where = [document.getElementById("defender-name"),document.getElementById("defender-icon"),document.getElementById("defender-dataset")];
 			break;
 		default:
 			return false;
@@ -582,14 +599,15 @@ function pokeSearchPick(that,what) {//that is the selected pokemon's this, what 
 	//fill data
 	where[0].value=who.pokemonname;
 	where[1].src="i/mons/icons/"+who.pokemonid+".png";
+	if((what=="attacker" && advMode) || what=="defender") where[2].value=who.pokemonname+","+who.pokemonstats;
 	let type = who.pokemontype.split(",");
-	currentPick="DefTypeA";
-	pickType(type[0],false);
-	currentPick="DefTypeB";
-	pickType(type[1],false);
-	
-	//blur
-	// where[0].blur();
+	if(what=="defender"){
+		currentPick="DefTypeA";
+		pickType(type[0],false);
+		currentPick="DefTypeB";
+		pickType(type[1],false);
+		calcAdvancedDefender();
+	} else if(what=="attacker") calcAdvancedAttacker();
 }
 
 //TYPE LIST AND EFFECTIVENESS
@@ -692,4 +710,44 @@ function collectionClear() {
 	currentCollection.style.height = (currentCollection.scrollHeight)+"px";
 	$("#collection-options").hide();
 	$("#calc-collection").hide();
+}
+
+//ADVANCED MODE
+function calcToggleAdvanced() {
+	if(advMode) {
+		$('#calcInput').removeClass('advanced-enabled');
+		document.getElementById("attacker-icon").src="i/atk.png";
+		document.getElementById("attacker-dataset").value="";
+		advMode=false;
+	} else {
+		$('#calcInput').addClass('advanced-enabled');
+		document.getElementById("attacker-icon").src="i/mons/icons/000.png";
+		advMode=true;
+	}
+}
+function calcAdvancedAttacker() {
+	if(input === undefined) input = document.getElementsByForm("calcInput");
+	let IV = input.attackerAtkStatIv.valueAsNumber,
+		EV = input.attackerAtkStatEv.valueAsNumber,
+		Lv = input.attackerLevel.valueAsNumber,
+		Nature = radioValue("attackerNature"),
+		dataset = input.attackerDataset.value;
+	if(dataset=="") return false;
+	dataset=dataset.split(",");
+	let baseATK = Number(dataset[2]);
+	input.attackerAtkStat.value=0|((0|((((2*baseATK)+IV+(0|EV/4))*Lv)/100)+5)*(Nature=="positive"?1.1:(Nature=="negative"?0.9:1)));
+	DamageCalc();
+}
+function calcAdvancedDefender() {
+	if(input === undefined) input = document.getElementsByForm("calcInput");
+	let IV = input.defenderDefStatIv.valueAsNumber,
+		EV = input.defenderDefStatEv.valueAsNumber,
+		Lv = input.defenderLevel.valueAsNumber,
+		Nature = radioValue("defenderNature"),
+		dataset = input.defenderDataset.value;
+	if(dataset=="") return false;
+	dataset=dataset.split(",");
+	let baseDEF = Number(dataset[3]);
+	input.defenderDefStat.value=0|((0|((((2*baseDEF)+IV+(0|EV/4))*Lv)/100)+5)*(Nature=="positive"?1.1:(Nature=="negative"?0.9:1)));
+	DamageCalc();
 }

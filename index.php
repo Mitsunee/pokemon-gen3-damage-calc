@@ -35,7 +35,7 @@ if(!isset($_GET["dev"])) {
 <!--	Basic stats		-->
 	<table class="pokemon"><!--	Attacker		-->
 		<tr>
-			<th colspan="2">Attacker<img src="i/atk.png" alt="atk" style="float:right;margin-right:12px;"></th>
+			<th colspan="2">Attacker<img src="i/atk.png" alt="attacker" id="attacker-icon"></th>
 		</tr>
 		<tr>
 			<td>Level:</td>
