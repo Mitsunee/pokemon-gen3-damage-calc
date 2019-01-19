@@ -2,149 +2,175 @@
 var input = undefined;//Get form elements
 
 //DMGCALC
-var damage = {
-	"basedmg": 0,
-	"critdmg": 0,
-	multiplier : function(x){
-		// param: x - the multiplier to be added to both dmg types
-		x = +x;
-		this.basedmg =0| this.basedmg * x;
-		this.critdmg =0| this.critdmg * x;
-	},
-	init : function(A,D,BP){
-		// description: initiates the basedmg and factors in attack and defense stages
-		// param: A  - modified atk stat
-		// param: D  - modified def stat
-		// param: BP - modified movebasepower
-		
-		aS = input.attackerAtkStage.value;
-		dS = input.defenderDefStage.value;
-		L = input.attackerLevel.value;
-		//AtkStages
-		switch(true) {
-			case (aS > 0): 
-				aSM = (10 + (5 * aS)) / 10;break;
-			case (aS < 0):
-				aSM = 10 / (10 + (-5 * aS));break;
-			default:
-				aSM = 1;
-		}
-		
-		//DefStages
-		switch(true) {
-			case (dS < 0):
-				dSM = 10 / (10 + (-5 * dS));break;
-			case (dS > 0):
-				dSM = (10 + (5 * dS)) / 10;break;
-			default:
-				dSM = 1;
-		}
-		
-		//set basedmg
-		this.basedmg =0| Math.trunc(Math.trunc(2*L/5+2)*(A*aSM)*BP/(D*dSM))/50;
-		this.critdmg =0| Math.trunc(Math.trunc(2*L/5+2)*(A*(aS <= 0 ? 1 : aSM))*BP/(D*(dS >= 0 ? 1 : dSM)))/50;//only applies atkstages if > 0 and defstages if < 0
-	},
-	two : function() {
-		// description: adds 2, because the source code does that.
-		//              also doubles critdmg, because that needs to happen some point after here.
-		this.basedmg +=2;
-		this.critdmg +=2;
-		this.critdmg *=2;
-	},
-	roll : function(HP,base) {
+function rollDamage(base) {
 		// rolls all possible damage rolls and returns information aquired
-		// param: HP 	- Defender's HP stat
-		// param: base 	- base dmg (put either damage.basedmg or damage.critdmg)
+		// param: base 	- base dmg
 		rolls=[];
 		rollsVerbose="";
-		missedrange = 0;
-		for (i=85;i<101;i++) {
+		for (let i=85;i<101;i++) {
 			roll =0| (base*i)/100;
 			rolls.push(roll);
 			rollsVerbose += roll;
 			if(i!=100) rollsVerbose += ", ";
-			if(HP - roll > 0) missedrange += 1;
-		}
-		OHKO = 100 * ((16 - missedrange)/16);
-		percminroll =0|  rolls[0] * 100 / HP;
-		percmaxroll =0| rolls[15] * 100 / HP;
-		
-		return {"rolls":rolls,"rollsVerbose":rollsVerbose,"OHKO":OHKO,"percminroll":percminroll,"percmaxroll":percmaxroll};
+		}		
+		return {"rolls":rolls.reverse(),"rollsVerbose":rollsVerbose};
 	}
-}
 
 function DamageCalc(){
 	////-- Input --
-	if(input === undefined) input = document.getElementById("calcInput").elements;
-	ATK = input.attackerAtkStat.value;
-	BasePower = input.attackerMoveBP.value;
-	DEF = input.defenderDefStat.value;
-	weathercheck = radioValue("weathercheck");
+	if(input === undefined) input = document.getElementsByForm("calcInput");
+	let ATK = input.attackerAtkStat.value,
+		basePower = input.attackerMoveBP.value,
+		DEF = input.defenderDefStat.value,
+		weathercheck = radioValue("weathercheck"),
+		aS = input.attackerAtkStage.value,
+		dS = input.defenderDefStage.value,
+		Lv = input.attackerLevel.value,
+		HP = input.defenderHPStat.value,
+		baseDmg,baseCritDmg,i;
 		
 	////-- output[0]: Repeat information for reference --
-	summary = "[Level " + input.attackerLevel.value + " ";
-	if(input.attackerAtkStage.value>=0) summary += "+";
-	summary += input.attackerAtkStage.value + " " + ATK + " with " + BasePower + "BP" + "] vs [";
-	if(input.defenderDefStage.value>=0) summary += "+";
-	summary += input.defenderDefStage.value + " " + DEF + " with " + input.defenderHPStat.value + "HP]";
-	output = summary+"\n";
+	let summary = "[Level " + input.attackerLevel.value + " ";
+	if(aS>=0) summary += "+";
+	summary += aS + " " + ATK + " with " + basePower + "BP" + "] vs [";
+	if(dS>=0) summary += "+";
+	summary += dS + " " + DEF + " with " + input.defenderHPStat.value + "HP]";
+	let output = summary+"\n";
 	
 	////-- modify stats based boost --
-	if(input.badgeBoostAtk.checked) ATK       =0| ATK*1.1;      //10% Badgeboost to ATK
-	if(input.badgeBoostDef.checked) DEF       =0| DEF*1.1;      //10% Badgeboost to DEF
-	if(input.itemBoost.checked)		ATK       =0| ATK*1.1;      //10% Itemboost
-	if(input.abilityBoost.checked)  BasePower =0| BasePower*1.5;//50% Basepower boost from Ability
+	if(input.badgeBoostAtk.checked) ATK	   =0| ATK*1.1;	  //10% Badgeboost to ATK
+	if(input.badgeBoostDef.checked) DEF	   =0| DEF*1.1;	  //10% Badgeboost to DEF
+	if(input.itemBoost.checked)		ATK	   =0| ATK*1.1;	  //10% Itemboost
+	if(input.abilityBoost.checked)  basePower =0| basePower*1.5;//50% Basepower boost from Ability
 	
-	////-- initialize --
-	damage.init(ATK,DEF,BasePower);
+	////-- Calculate Stat Stage Modifiers --
+	//AtkStages
+	switch(true) {
+		case (aS > 0): 
+			aSM = (10 + (5 * aS)) / 10;
+			break;
+		case (aS < 0):
+			aSM = 10 / (10 + (-5 * aS));
+			break;
+		default:
+			aSM = 1;
+	}
+	
+	//DefStages
+	switch(true) {
+		case (dS < 0):
+			dSM = 10 / (10 + (-5 * dS));
+			break;
+		case (dS > 0):
+			dSM = (10 + (5 * dS)) / 10;
+			break;
+		default:
+			dSM = 1;
+	}
+	
+	////-- Calculate Base Damage--
+	baseDmg =0| Math.trunc(Math.trunc(2*Lv/5+2)*(ATK*aSM)*basePower/(DEF*dSM))/50;
+	//Crits only apply atkstages if > 0 and defstages if < 0
+	baseCritDmg =0| Math.trunc(Math.trunc(2*Lv/5+2)*(ATK*(aS <= 0 ? 1 : aSM))*basePower/(DEF*(dS >= 0 ? 1 : dSM)))/50;
 	
 	////-- basedamage modifiers --
 	if(input.lsrefcheck.checked) {//Light Screen or Reflect?
 		if(input.doublecheck.checked) {//in doubles
-			damage.multiplier(2/3);
+			baseDmg =0| baseDmg*(2/3);
+			baseCritDmg =0| baseCritDmg*(2/3);
 		} else {//against single target
-			damage.multiplier(0.5);
+			baseDmg =0| baseDmg*(0.5);
+			baseCritDmg =0| baseCritDmg*(0.5);
 		}
 	}
-	if(input.doublecheck.checked)   damage.multiplier(0.5);//doubles dmg halving
-	if(weathercheck=="goodweather") damage.multiplier(1.5);//beneficial weather
-	if(weathercheck=="badweather")  damage.multiplier(0.5);//bad weather
-	damage.two();
-	if(input.stabcheck.checked) damage.multiplier(1.5);//+50% from STAB
-	damage.multiplier(input.typeeffect.value);//type effectiveness
+	if(input.doublecheck.checked){//doubles dmg halving
+		baseDmg =0| baseDmg*(0.5);
+		baseCritDmg =0| baseCritDmg*(0.5);
+	}
+	switch(weathercheck){
+		case "goodweather"://beneficial weather
+			baseDmg =0| baseDmg*(1.5);
+			baseCritDmg =0| baseCritDmg*(1.5);
+			break;
+		case "badweather"://bad weather
+			baseDmg =0| baseDmg*(0.5);
+			baseCritDmg =0| baseCritDmg*(0.5);
+			break;
+	}
+	//Add two and double crits
+	baseDmg+=2;
+	baseCritDmg+=2;
+	baseCritDmg*=2;
 	
-	////-- Roll non-critical hit --
-	noncrit = damage.roll(input.defenderHPStat.value,damage.basedmg);
+	if(input.stabcheck.checked){//+50% from STAB
+		baseDmg =0| baseDmg*(1.5);
+		baseCritDmg =0| baseCritDmg*(1.5);
+	}
+	//type effectiveness
+	baseDmg =0| baseDmg*(input.typeeffect.value);
+	baseCritDmg =0| baseCritDmg*(input.typeeffect.value);
+	
+	
+	////-- Perform dmg rolls --
+	let noncrit = rollDamage(baseDmg),
+		crit = rollDamage(baseCritDmg);
+	
+	////-- Non-Critical Hit --
+	if(noncrit.rolls[15]<HP){
+		noncrit.OHKO=0;
+	} else {
+		i=0;
+		for(let roll of noncrit.rolls) {//Count rolls that kill
+			if(roll>=HP) {i++;} else break;
+		}
+		noncrit.OHKO=i/16*100;
+	}
+	noncrit.minRollPercentage =0| noncrit.rolls[15]/HP*100;
+	noncrit.maxRollPercentage =0| noncrit.rolls[0]/HP*100;
+	//output
 	if(input.outputVerbose.checked) {
 		output += noncrit.rollsVerbose;
 	} else {
-		output += noncrit.rolls[0] + " (" + noncrit.percminroll + "%) " + " - " + noncrit.rolls[15] + " (" + noncrit.percmaxroll + "%)";
+		output += noncrit.rolls[15] + " (" + noncrit.minRollPercentage + "%) " + " - " + noncrit.rolls[0] + " (" + noncrit.maxRollPercentage + "%)";
 	}
 	output += "\n"+ noncrit.OHKO + "% chance to OHKO";
-	if(input.outputVerbose.checked) output += " (" + noncrit.percminroll + "% to " + noncrit.percmaxroll + "%)";
+	if(input.outputVerbose.checked) output += " (" + noncrit.minRollPercentage + "% to " + noncrit.maxRollPercentage + "%)";
 	
 	////-- Critical Hit --
 	if(input.showCrits.checked) {
+		//processing
+		if(crit.rolls[15]<HP){
+			crit.OHKO=0;
+		} else {
+			i=0;
+			for(let roll of noncrit.rolls) {
+				if(roll>=HP) {i++;} else break;
+			}
+			crit.OHKO=i/16*100;
+		}
+		crit.minRollPercentage =0| crit.rolls[15]/HP*100;
+		crit.maxRollPercentage =0| crit.rolls[0]/HP*100;
+		//output
 		input.outputarea.style.height="102px";
 		output += "\n" + summary + " CRIT\n";
-		crithit = damage.roll(input.defenderHPStat.value,damage.critdmg);
 		if(input.outputVerbose.checked) {
-			output  += crithit.rollsVerbose + "\n"
-					+ crithit.OHKO + "% chance to OHKO" + " (" + crithit.percminroll + "% to " + crithit.percmaxroll + "%)";
+			output  += crit.rollsVerbose + "\n" + crit.OHKO + "% chance to OHKO" + " (" + crit.minRollPercentage + "% to " + crit.maxRollPercentage + "%)";
 		} else {
-			output  += crithit.rolls[0] + " (" + crithit.percminroll + "%) " + " - " + crithit.rolls[15] + " (" + crithit.percmaxroll + "%)" + "\n"
-					+ crithit.OHKO + "% chance to OHKO";
+			output  += crit.rolls[15] + " (" + crit.minRollPercentage + "%) " + " - " + crit.rolls[0] + " (" + crit.maxRollPercentage + "%)" + "\n" + crit.OHKO + "% chance to OHKO";
 		}
 	} else input.outputarea.style.height="56px";
 	
 	////-- delivery --
 	input.outputarea.innerHTML=output;
-	if(noncrit.OHKO==0) {
-		input.outputarea.className="lives";
-	} else if(noncrit.OHKO==100) {
-		input.outputarea.className="kill";
-	} else {
-		input.outputarea.className="range";
+	switch(noncrit.OHKO) {
+		case 0: 
+			input.outputarea.className="lives";
+			break;
+		case 100:
+			input.outputarea.className="kill";
+			break;
+		default:
+			input.outputarea.className="range";
 	}
 }
 
