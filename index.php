@@ -29,9 +29,9 @@ if(!isset($_GET["dev"])) {
 }
 ?>
 </head>
-<body onload="DamageCalc();">
+<body onload="DamageCalc();$('main').show();">
 <h1 style="text-align:center;"><img src="i/mons/icons/382.png" alt="K"> <img src="i/mons/icons/383.png" alt="G"> <img src="i/mons/icons/384.png" alt="R"> Damage Calculator for Generation 3 <img src="i/mons/icons/003.png" alt="V"> <img src="i/mons/icons/006.png" alt="C"> <img src="i/mons/icons/009.png" alt="B"></h1>
-<main><form id="calcInput" onchange="DamageCalc();return false;" action="javascript:void(0);">
+<main style="display:none;"><form id="calcInput" onchange="DamageCalc();return false;" action="javascript:void(0);">
 <!--	Basic stats		-->
 	<table class="pokemon"><!--	Attacker		-->
 		<tr>
@@ -206,11 +206,12 @@ if(!isset($_GET["dev"])) {
 <!--Side Bar-->
 <aside>
 	<footer>
-		<span class="smol">Version 3.2 (Search)</span><br>
+		<span class="smol">Version 3.3 (Advanced Mode)</span><br>
 		<span class="smol">Thx to: G_heinz, Stringflow</span>
 		<hr><h3>Stuff:</h3>
 		Source Code disassembly: <a href="https://github.com/pret/pokeruby/blob/master/src/calculate_base_damage.c">on Github</a><br>
-		Github repo: <a href="https://github.com/Mitsunee/Gen3DmgCalc">Github</a>
+		Github repo: <a href="https://github.com/Mitsunee/Gen3DmgCalc">Github</a><br>
+		Contact: <a href="https://twitter.com/mitsunee">Twitter</a> or Discord: Mitsunee#2422
 		<hr><h3>Resources:</h3>
 		<span class="smol">Trainer Guides/Data</span><br>
 		<a href="https://docs.google.com/spreadsheets/d/1n7rmyMGOR9ishlC8LuXxKtSgnwNxOUY2XScyPvFnGqo/edit#gid=0">Sapphire</a><br>

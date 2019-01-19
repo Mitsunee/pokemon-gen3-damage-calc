@@ -2,7 +2,8 @@ body,html{min-width:1210px;}
 body{
 	font-family:'Lato',sans-serif;
 	line-height:1.1em;
-	background:url('i/bg.png') #7dad71 top center repeat-x;
+	background:url('i/bg_mons.png') no-repeat center 252px,url('i/bg_road.png') repeat-x top center;
+	background-color:#7dad71;
 	user-select:none;
 }
 
