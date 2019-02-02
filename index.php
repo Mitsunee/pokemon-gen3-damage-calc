@@ -46,7 +46,7 @@ if(!isset($_GET["dev"])) {
 		</tr>
 		<tr>
 			<td>Level:</td>
-			<td><input type="number" name="attackerLevel" min="1" max="100" step="1" value="50" oninput="if(advMode)calcAdvancedAttacker();DamageCalc();"></td>
+			<td><input type="number" name="attackerLevel" min="1" max="100" step="1" value="50" oninput="DamageCalc();"></td>
 		</tr>
 		<tr class="basic-only">
 			<td>Offensive stat value:</td>
@@ -54,18 +54,18 @@ if(!isset($_GET["dev"])) {
 		</tr>
 		<tr class="advanced-only">
 			<td>Offense stat IV:</td>
-			<td><input type="number" min="0" max="31" step="1" value="0" name="attackerAtkStatIv" oninput="calcAdvancedAttacker();"></td>
+			<td><input type="number" min="0" max="31" step="1" value="0" name="attackerAtkStatIv" oninput="DamageCalc();"></td>
 		</tr>
 		<tr class="advanced-only">
 			<td>Offense stat EV:</td>
-			<td><input type="number" min="0" max="255" step="1" value="0" name="attackerAtkStatEv" oninput="calcAdvancedAttacker();"></td>
+			<td><input type="number" min="0" max="255" step="1" value="0" name="attackerAtkStatEv" oninput="DamageCalc();"></td>
 		</tr>
 		<tr class="advanced-only">
 			<td>Offense stat Nature:</td>
 			<td>
-				<input type="radio" name="attackerNature" value="negative" id="attackerNatureNegative" onchange="calcAdvancedAttacker();"><label for="attackerNatureNegative" style="width:25%;">-</label>
-				<input type="radio" name="attackerNature" value="neutral" id="attackerNatureNeutral" onchange="calcAdvancedAttacker();" checked><label for="attackerNatureNeutral" style="width:26%;">|</label>
-				<input type="radio" name="attackerNature" value="positive" id="attackerNaturePositive" onchange="calcAdvancedAttacker();"><label for="attackerNaturePositive" style="width:25%;">+</label>
+				<input type="radio" name="attackerNature" value="negative" id="attackerNatureNegative" onchange="DamageCalc();"><label for="attackerNatureNegative" style="width:25%;">-</label>
+				<input type="radio" name="attackerNature" value="neutral" id="attackerNatureNeutral" onchange="DamageCalc();" checked><label for="attackerNatureNeutral" style="width:26%;">|</label>
+				<input type="radio" name="attackerNature" value="positive" id="attackerNaturePositive" onchange="DamageCalc();"><label for="attackerNaturePositive" style="width:25%;">+</label>
 			</td>
 		</tr>
 		<tr>
@@ -90,7 +90,7 @@ if(!isset($_GET["dev"])) {
 		</tr>
 		<tr class="advanced-only">
 			<td>Level:</td>
-			<td><input type="number" min="1" max="100" step="1" value="50" name="defenderLevel" oninput="calcAdvancedDefender();"></td>
+			<td><input type="number" min="1" max="100" step="1" value="50" name="defenderLevel" oninput="DamageCalc();"></td>
 		</tr>
 		<tr class="basic-only">
 			<td>Defensive stat value:</td>
@@ -98,22 +98,22 @@ if(!isset($_GET["dev"])) {
 		</tr>
 		<tr class="advanced-only">
 			<td>Defensive stat IV:</td>
-			<td><input type="number" min="0" max="31" step="1" value="0" name="defenderDefStatIv" oninput="calcAdvancedDefender();"></td>
+			<td><input type="number" min="0" max="31" step="1" value="0" name="defenderDefStatIv" oninput="DamageCalc();"></td>
 		</tr>
 		<tr class="advanced-only">
 			<td>Defensive stat EV:</td>
-			<td><input type="number" min="0" max="255" step="1" value="0" name="defenderDefStatEv" oninput="calcAdvancedDefender();"></td>
+			<td><input type="number" min="0" max="255" step="1" value="0" name="defenderDefStatEv" oninput="DamageCalc();"></td>
 		</tr>
 		<tr class="advanced-only">
 			<td>Defensive stat Nature:</td>
 			<td>
-				<input type="radio" name="defenderNature" value="negative" id="defenderNatureNegative" onchange="calcAdvancedDefender();"><label for="defenderNatureNegative" style="width:25%;">-</label>
-				<input type="radio" name="defenderNature" value="neutral" id="defenderNatureNeutral" onchange="calcAdvancedDefender();" checked><label for="defenderNatureNeutral" style="width:26%;">|</label>
-				<input type="radio" name="defenderNature" value="positive" id="defenderNaturePositive" onchange="calcAdvancedDefender();"><label for="defenderNaturePositive" style="width:25%;">+</label>
+				<input type="radio" name="defenderNature" value="negative" id="defenderNatureNegative" onchange="DamageCalc();"><label for="defenderNatureNegative" style="width:25%;">-</label>
+				<input type="radio" name="defenderNature" value="neutral" id="defenderNatureNeutral" onchange="DamageCalc();" checked><label for="defenderNatureNeutral" style="width:26%;">|</label>
+				<input type="radio" name="defenderNature" value="positive" id="defenderNaturePositive" onchange="DamageCalc();"><label for="defenderNaturePositive" style="width:25%;">+</label>
 			</td>
 		</tr>
 		<tr>
-			<td>Current HP:</td>
+			<td id="defenderHPStatLabel">Current HP:</td>
 			<td><input type="number" min="1" max="999" step="1" value="150" name="defenderHPStat" oninput="DamageCalc();"></td>
 		</tr>
 		<tr>
@@ -141,7 +141,7 @@ if(!isset($_GET["dev"])) {
 		</tr>
 	</table>
 	<div class="clear"></div>
-	<input type="button" value="Toggle Advanced Mode" id="adv-toggle" style="margin: 0px 0px 15px 50px;" onclick="calcToggleAdvanced();">
+	<input type="button" value="Toggle Advanced Mode" id="adv-toggle" style="margin: 0px 0px 15px 50px;" onclick="advMode.toggle();">
 <!--	Bonus Effects		-->
 	<table class="bonus-effects">
 		<tr>

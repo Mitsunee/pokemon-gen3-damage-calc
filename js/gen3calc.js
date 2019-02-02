@@ -1,6 +1,6 @@
 //SETUP VARS
 var input = undefined,//Get form elements
-	advMode = false,
+	advMode = {"enabled":false},
 	currentPick = "AtkType",
 	AtkType = "normal",
 	DefTypeA = "normal",
@@ -371,7 +371,7 @@ var input = undefined,//Get form elements
 //DMGCALC
 function rollDamage(base) {
 		// rolls all possible damage rolls and returns information aquired
-		// param: base 	- base dmg
+		// param: base - base dmg
 		rolls=[];
 		rollsVerbose="";
 		for (let i=85;i<101;i++) {
@@ -385,14 +385,26 @@ function rollDamage(base) {
 function DamageCalc(){
 	////-- Input --
 	if(input === undefined) input = document.getElementsByForm("calcInput");
-	let ATK = input.attackerAtkStat.value,
-		basePower = input.attackerMoveBP.value,
-		DEF = input.defenderDefStat.value,
+	
+	////-- Advanced Mode Integration --
+	let ATK,DEF;
+	if(advMode.enabled) {
+		advMode.suggestDefenderHP();
+		ATK = advMode.calcAttacker();
+		if(ATK) input.attackerAtkStat.value = ATK;
+		DEF = advMode.calcDefender();
+		if(DEF) input.defenderDefStat.value = DEF;
+	}
+	ATK = input.attackerAtkStat.valueAsNumber;
+	DEF = input.defenderDefStat.valueAsNumber;
+	
+	////-- Read other Stats --
+	let basePower = input.attackerMoveBP.valueAsNumber,
 		weathercheck = radioValue("weathercheck"),
-		aS = input.attackerAtkStage.value,
-		dS = input.defenderDefStage.value,
-		Lv = input.attackerLevel.value,
-		HP = input.defenderHPStat.value,
+		aS = input.attackerAtkStage.valueAsNumber,
+		dS = input.defenderDefStage.valueAsNumber,
+		Lv = input.attackerLevel.valueAsNumber,
+		HP = input.defenderHPStat.valueAsNumber,
 		baseDmg,baseCritDmg,i;
 		
 	////-- output[0]: Repeat information for reference --
@@ -550,17 +562,15 @@ function pokeSearch(that) {//that is the calling form element's this
 	switch(that.name) {
 		case "attackerName":
 			haystack = document.querySelector("#search-attacker>table>tbody").children;
-			icon=$("#attacker-icon")[0];
-			dataset=$("#attacker-dataset")[0];
 			errorDiv=$("#search-attacker-empty-result");
 			errorDiv.hide();
+			advMode.clearAttacker();
 			break;
 		case "defenderName":
 			haystack = document.querySelector("#search-defender>table>tbody").children;
-			icon=$("#defender-icon")[0];
-			dataset=$("#defender-dataset")[0];
 			errorDiv=$("#search-defender-empty-result");
 			errorDiv.hide();
+			advMode.clearDefender();
 			break;
 		default:
 			return false;
@@ -579,8 +589,6 @@ function pokeSearch(that) {//that is the calling form element's this
 		}
 	}
 	if(foundMon==false) errorDiv.show();
-	icon.src="i/mons/icons/000.png";
-	dataset.value="";
 	DamageCalc();
 }
 function pokeSearchPick(that,what) {//that is the selected pokemon's this
@@ -599,15 +607,16 @@ function pokeSearchPick(that,what) {//that is the selected pokemon's this
 	//fill data
 	where[0].value=who.pokemonname;
 	where[1].src="i/mons/icons/"+who.pokemonid+".png";
-	if((what=="attacker" && advMode) || what=="defender") where[2].value=who.pokemonname+","+who.pokemonstats;
+	if((what=="attacker" && advMode.enabled) || what=="defender") where[2].value=who.pokemonname+","+who.pokemonstats;
 	let type = who.pokemontype.split(",");
 	if(what=="defender"){
 		currentPick="DefTypeA";
 		pickType(type[0],false);
 		currentPick="DefTypeB";
 		pickType(type[1],false);
-		calcAdvancedDefender();
-	} else if(what=="attacker") calcAdvancedAttacker();
+		if(advMode.enabled) advMode.suggestDefenderHP();
+	}
+	DamageCalc();
 }
 
 //TYPE LIST AND EFFECTIVENESS
@@ -633,9 +642,9 @@ function openTypePicker(picking) {
 	pickerDIV.style.top="336px";
 	currentPick = picking;
 	$(pickerDIV).show();
-	$(document.getElementById("typePicker-clicktrap")).show();
+	$("#typePicker-clicktrap").show();
 }
-function pickType(pickedType,replaceIcon) {
+function pickType(pickedType,wipeMon) {
 	document.getElementById(currentPick+"Img").src="i/"+pickedType+".gif";
 	switch(currentPick) {
 		case "AtkType":
@@ -648,11 +657,11 @@ function pickType(pickedType,replaceIcon) {
 			break;
 		case "DefTypeA":
 			DefTypeA=pickedType;
-			if(replaceIcon!==false) $("#defender-icon")[0].src="i/mons/icons/000.png"; 
+			if(wipeMon!==false) advMode.clearDefender(); 
 			break;
 		case "DefTypeB":
 			DefTypeB=pickedType;
-			if(replaceIcon!==false) $("#defender-icon")[0].src="i/mons/icons/000.png"; 
+			if(wipeMon!==false) advMode.clearDefender(); 
 			break;
 	}
 	$('#typePicker').hide();
@@ -713,41 +722,72 @@ function collectionClear() {
 }
 
 //ADVANCED MODE
-function calcToggleAdvanced() {
-	if(advMode) {
+advMode.toggle = function() {
+	if(advMode.enabled) {
 		$('#calcInput').removeClass('advanced-enabled');
-		document.getElementById("attacker-icon").src="i/atk.png";
-		document.getElementById("attacker-dataset").value="";
-		advMode=false;
+		advMode.clearAttacker("i/atk.png");
+		advMode.enabled=false;
 	} else {
 		$('#calcInput').addClass('advanced-enabled');
 		document.getElementById("attacker-icon").src="i/mons/icons/000.png";
-		advMode=true;
+		advMode.enabled=true;
 	}
+	DamageCalc();
 }
-function calcAdvancedAttacker() {
-	if(input === undefined) input = document.getElementsByForm("calcInput");
+advMode.calcAttacker = function() {
 	let IV = input.attackerAtkStatIv.valueAsNumber,
 		EV = input.attackerAtkStatEv.valueAsNumber,
 		Lv = input.attackerLevel.valueAsNumber,
 		Nature = radioValue("attackerNature"),
-		dataset = input.attackerDataset.value;
+		dataset = input.attackerDataset.value,
+		ATK,baseATK;
 	if(dataset=="") return false;
 	dataset=dataset.split(",");
-	let baseATK = Number(dataset[2]);
-	input.attackerAtkStat.value=0|((0|((((2*baseATK)+IV+(0|EV/4))*Lv)/100)+5)*(Nature=="positive"?1.1:(Nature=="negative"?0.9:1)));
-	DamageCalc();
+	if(typeReference[AtkType].type=="Physical") {
+		baseATK = Number(dataset[2]);
+	} else {
+		baseATK = Number(dataset[4]);
+	}
+	ATK=0|((0|((((2*baseATK)+IV+(0|EV/4))*Lv)/100)+5)*(Nature=="positive"?1.1:(Nature=="negative"?0.9:1)));
+	return ATK;
 }
-function calcAdvancedDefender() {
-	if(input === undefined) input = document.getElementsByForm("calcInput");
+advMode.calcDefender = function() {
 	let IV = input.defenderDefStatIv.valueAsNumber,
 		EV = input.defenderDefStatEv.valueAsNumber,
 		Lv = input.defenderLevel.valueAsNumber,
 		Nature = radioValue("defenderNature"),
+		dataset = input.defenderDataset.value,
+		DEF,baseDEF;
+	if(dataset=="") return false;
+	dataset=dataset.split(",");
+	if(typeReference[AtkType].type=="Physical") {
+		baseDEF = Number(dataset[3]);
+	} else {
+		baseDEF = Number(dataset[5]);
+	}
+	DEF=0|((0|((((2*baseDEF)+IV+(0|EV/4))*Lv)/100)+5)*(Nature=="positive"?1.1:(Nature=="negative"?0.9:1)));
+	return DEF;
+}
+advMode.clearAttacker = function(iconOverride) {
+	$("#attacker-dataset")[0].value="";
+	$("#attacker-icon")[0].src=iconOverride||"i/mons/icons/000.png";
+}
+advMode.clearDefender = function(iconOverride) {
+	$("#defender-dataset")[0].value="";
+	$("#defender-icon")[0].src=iconOverride||"i/mons/icons/000.png";
+	$("#defenderHPStatLabel").html("Current HP:");
+	input.defenderHPStat.max=999;
+}
+advMode.suggestDefenderHP = function () {
+	let maxHP,baseHP,
+		Lv = input.defenderLevel.valueAsNumber,
 		dataset = input.defenderDataset.value;
 	if(dataset=="") return false;
 	dataset=dataset.split(",");
-	let baseDEF = Number(dataset[3]);
-	input.defenderDefStat.value=0|((0|((((2*baseDEF)+IV+(0|EV/4))*Lv)/100)+5)*(Nature=="positive"?1.1:(Nature=="negative"?0.9:1)));
-	DamageCalc();
+	baseHP=dataset[1];
+	maxHP = (0|(((2*baseHP)+31+(0|255/4))*Lv)/100)+Lv+10;
+	
+	if(input.defenderHPStat.valueAsNumber>maxHP) input.defenderHPStat.value = maxHP;
+	$("#defenderHPStatLabel").html("Current HP (up to "+maxHP+"):");
+	input.defenderHPStat.max=maxHP;
 }
