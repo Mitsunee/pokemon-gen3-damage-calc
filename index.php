@@ -18,16 +18,16 @@
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script src="js/gen3calc.<?php
 if(!isset($_GET["dev"])) {
-    echo "min.js?_=".filemtime('js/gen3calc.min.js').'"></script>';
+    echo "min.js?_=".filemtime('js/gen3calc.min.js');
 } else {
     echo "js?_=".filemtime('js/gen3calc.js');
     //load libs manually
-    echo '"></script>'.PHP_EOL;
     foreach (glob("js/lib/*.js") as $lib) {
-        echo "<script src=\"$lib?_=".filemtime($lib).'"></script>'.PHP_EOL;
+		echo '"></script>'.PHP_EOL;
+        echo "<script src=\"$lib?_=".filemtime($lib);
     }
 }
-?>
+?>"></script>
 </head>
 <body onload="DamageCalc();$('main').show();">
 <h1 style="text-align:center;"><img src="i/mons/icons/382.png" alt="K"> <img src="i/mons/icons/383.png" alt="G"> <img src="i/mons/icons/384.png" alt="R"> Damage Calculator for Generation 3 <img src="i/mons/icons/003.png" alt="V"> <img src="i/mons/icons/006.png" alt="C"> <img src="i/mons/icons/009.png" alt="B"></h1>
@@ -206,7 +206,7 @@ if(!isset($_GET["dev"])) {
 <!--Side Bar-->
 <aside>
 	<footer>
-		<span class="smol">Version 3.3 (Advanced Mode)</span><br>
+		<span class="smol">Version 3.3.1 (Advanced Mode)</span><br>
 		<span class="smol">Thx to: G_heinz, Stringflow</span>
 		<hr><h3>Stuff:</h3>
 		Source Code disassembly: <a href="https://github.com/pret/pokeruby/blob/master/src/calculate_base_damage.c">on Github</a><br>
