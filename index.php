@@ -206,7 +206,7 @@ if(!isset($_GET["dev"])) {
 <!--Side Bar-->
 <aside>
 	<footer>
-		<span class="smol">Version 3.3.1 (Advanced Mode)</span><br>
+		<span class="smol">Version 3.3.2 (Advanced Mode)</span><br>
 		<span class="smol">Thx to: G_heinz, Stringflow</span>
 		<hr><h3>Stuff:</h3>
 		Source Code disassembly: <a href="https://github.com/pret/pokeruby/blob/master/src/calculate_base_damage.c">on Github</a><br>
