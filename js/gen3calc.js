@@ -618,6 +618,62 @@ function pokeSearchPick(that,what) {//that is the selected pokemon's this
 	}
 	DamageCalc();
 }
+async function pokeSearchInstall() {
+    let xhr = new XMLHttpRequest();
+    xhr.open("GET","js/pokestats.json");
+    xhr.onload = () => {
+        let pokemon = JSON.parse(xhr.responseText).pokemon,
+            attackerSearch = $('#search-attacker').find('table>tbody'),
+            defenderSearch = $('#search-defender').find('table>tbody'),
+            currentRow,currentRowClone;
+            
+        for(mon of pokemon) {
+            currentRow = $('<tr/>', {'data-pokemonname': mon['name'], 'data-pokemonid': mon['id'], 'data-pokemontype': mon['type'].join(','), 'data-pokemonstats': mon['basestats'].join(',')});
+            currentRow
+            .append($('<td/>').append($('<img>', {'src': 'i/mons/icons/'+mon['id']+'.png', 'alt': mon['id']})))
+            .append($('<td/>').html(mon['id']))
+            .append($('<td/>', {colspan: 4}).html(mon['name']))
+            .append($('<td/>', {colspan: (mon['type'][1] == 'none' ? 2 : 1)}).append($('<img>', {src: 'i/'+mon['type'][0]+'.gif', 'alt': mon['type'][0], 'class': 'poketype'})));
+            
+            if(mon['type'][1]!="none") {
+                currentRow.append($('<td/>').append($('<img>', {src: 'i/'+mon['type'][1]+'.gif', 'alt': mon['type'][1], 'class': 'poketype'})));
+            }
+            
+            currentRowClone = currentRow.clone();
+            
+            currentRow.on('mousedown',function(){pokeSearchPick(this, 'attacker')});
+            currentRow.appendTo(attackerSearch);
+            
+            currentRowClone.on('mousedown',function(){pokeSearchPick(this, 'defender')});
+            currentRowClone.appendTo(defenderSearch);
+        }
+    };
+    xhr.send();
+    /**
+    $json = file_get_contents("js/pokestats.json");
+    $data = json_decode($json,true);
+    foreach($data["pokemon"] as $pokemon) {
+        echo '<tr data-pokemonname="'.$pokemon["name"].'" data-pokemonid="'.$pokemon["id"].'" data-pokemontype="'.$pokemon["type"][0].','.$pokemon["type"][1].'"'." data-pokemonstats=\"".join(",",$pokemon["basestats"])."\" onmousedown=\"pokeSearchPick(this,'attacker')\">".PHP_EOL;
+        echo '<td><img src="i/mons/icons/'.$pokemon["id"].'.png"></td>'.PHP_EOL;
+        echo '<td>'.$pokemon["id"].'</td>'.PHP_EOL;
+        echo '<td colspan="4">'.$pokemon["name"].'</td>'.PHP_EOL;
+        echo '<td';
+        if ($pokemon["type"][1]=="none") echo ' colspan="2"';
+        echo '><img src="i/'.$pokemon["type"][0].'.gif" alt="'.$pokemon["type"][0].'" class="poketype"></td>'.PHP_EOL;
+        if ($pokemon["type"][1]!="none") echo '<td><img src="i/'.$pokemon["type"][1].'.gif" alt="'.$pokemon["type"][1].'" class="poketype"></td>'.PHP_EOL;
+        echo '</tr>'.PHP_EOL;
+    }
+    
+    mons (array):
+        basestats (array):
+            HP, ATK, DEF, SPA, SPD, SPE (int)
+        id (int)
+        name (string)
+        type (array):
+            Type1 (string), Type2 (string)
+    
+    **/
+}
 
 //TYPE LIST AND EFFECTIVENESS
 function openTypePicker(picking) {
