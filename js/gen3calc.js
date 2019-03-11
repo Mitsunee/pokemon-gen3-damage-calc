@@ -498,7 +498,7 @@ function DamageCalc(){
 		crit = rollDamage(baseCritDmg);
 
 	////-- Non-Critical Hit --
-	if(noncrit.rolls[15]<HP){
+	if(noncrit.rolls[0]<HP){
 		noncrit.OHKO=0;
 	} else {
 		i=0;
@@ -521,7 +521,7 @@ function DamageCalc(){
 	////-- Critical Hit --
 	if(input.showCrits.checked) {
 		//processing
-		if(crit.rolls[15]<HP){
+		if(crit.rolls[0]<HP){
 			crit.OHKO=0;
 		} else {
 			i=0;
