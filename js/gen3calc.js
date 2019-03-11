@@ -379,13 +379,13 @@ function rollDamage(base) {
 			rolls.push(roll);
 			rollsVerbose += roll;
 			if(i!=100) rollsVerbose += ", ";
-		}		
+		}
 		return {"rolls":rolls.reverse(),"rollsVerbose":rollsVerbose};
 	}
 function DamageCalc(){
 	////-- Input --
 	if(input === undefined) input = document.getElementsByForm("calcInput");
-	
+
 	////-- Advanced Mode Integration --
 	let ATK,DEF;
 	if(advMode.enabled) {
@@ -397,7 +397,7 @@ function DamageCalc(){
 	}
 	ATK = input.attackerAtkStat.valueAsNumber;
 	DEF = input.defenderDefStat.valueAsNumber;
-	
+
 	////-- Read other Stats --
 	let basePower = input.attackerMoveBP.valueAsNumber,
 		weathercheck = radioValue("weathercheck"),
@@ -406,7 +406,7 @@ function DamageCalc(){
 		Lv = input.attackerLevel.valueAsNumber,
 		HP = input.defenderHPStat.valueAsNumber,
 		baseDmg,baseCritDmg,i;
-		
+
 	////-- output[0]: Repeat information for reference --
 	let summary = "[Level " + input.attackerLevel.value + " ";
 	if(aS>=0) summary += "+";
@@ -418,17 +418,17 @@ function DamageCalc(){
 	if(input.defenderDataset.value!="") summary += input.defenderDataset.value.split(",")[0]+" ";
 	summary += "with " + input.defenderHPStat.value + "HP]";
 	let output = summary+"\n";
-	
+
 	////-- modify stats based boost --
 	if(input.badgeBoostAtk.checked) ATK	   =0| ATK*1.1;	  //10% Badgeboost to ATK
 	if(input.badgeBoostDef.checked) DEF	   =0| DEF*1.1;	  //10% Badgeboost to DEF
 	if(input.itemBoost.checked)		ATK	   =0| ATK*1.1;	  //10% Itemboost
 	if(input.abilityBoost.checked)  basePower =0| basePower*1.5;//50% Basepower boost from Ability
-	
+
 	////-- Calculate Stat Stage Modifiers --
 	//AtkStages
 	switch(true) {
-		case (aS > 0): 
+		case (aS > 0):
 			aSM = (10 + (5 * aS)) / 10;
 			break;
 		case (aS < 0):
@@ -437,7 +437,7 @@ function DamageCalc(){
 		default:
 			aSM = 1;
 	}
-	
+
 	//DefStages
 	switch(true) {
 		case (dS < 0):
@@ -449,12 +449,12 @@ function DamageCalc(){
 		default:
 			dSM = 1;
 	}
-	
+
 	////-- Calculate Base Damage--
 	baseDmg =0| Math.trunc(Math.trunc(2*Lv/5+2)*(ATK*aSM)*basePower/(DEF*dSM))/50;
 	//Crits only apply atkstages if > 0 and defstages if < 0
 	baseCritDmg =0| Math.trunc(Math.trunc(2*Lv/5+2)*(ATK*(aS <= 0 ? 1 : aSM))*basePower/(DEF*(dS >= 0 ? 1 : dSM)))/50;
-	
+
 	////-- basedamage modifiers --
 	if(input.lsrefcheck.checked) {//Light Screen or Reflect?
 		if(input.doublecheck.checked) {//in doubles
@@ -483,7 +483,7 @@ function DamageCalc(){
 	baseDmg+=2;
 	baseCritDmg+=2;
 	baseCritDmg*=2;
-	
+
 	if(input.stabcheck.checked){//+50% from STAB
 		baseDmg =0| baseDmg*(1.5);
 		baseCritDmg =0| baseCritDmg*(1.5);
@@ -491,12 +491,12 @@ function DamageCalc(){
 	//type effectiveness
 	baseDmg =0| baseDmg*(input.typeeffect.value);
 	baseCritDmg =0| baseCritDmg*(input.typeeffect.value);
-	
-	
+
+
 	////-- Perform dmg rolls --
 	let noncrit = rollDamage(baseDmg),
 		crit = rollDamage(baseCritDmg);
-	
+
 	////-- Non-Critical Hit --
 	if(noncrit.rolls[15]<HP){
 		noncrit.OHKO=0;
@@ -517,7 +517,7 @@ function DamageCalc(){
 	}
 	output += "\n"+ noncrit.OHKO + "% chance to OHKO";
 	if(input.outputVerbose.checked) output += " (" + noncrit.minRollPercentage + "% to " + noncrit.maxRollPercentage + "%)";
-	
+
 	////-- Critical Hit --
 	if(input.showCrits.checked) {
 		//processing
@@ -541,11 +541,11 @@ function DamageCalc(){
 			output  += crit.rolls[15] + " (" + crit.minRollPercentage + "%) " + " - " + crit.rolls[0] + " (" + crit.maxRollPercentage + "%)" + "\n" + crit.OHKO + "% chance to OHKO";
 		}
 	} else input.outputarea.style.height="56px";
-	
+
 	////-- delivery --
 	input.outputarea.innerHTML=output;
 	switch(noncrit.OHKO) {
-		case 0: 
+		case 0:
 			input.outputarea.className="lives";
 			break;
 		case 100:
@@ -626,7 +626,7 @@ async function pokeSearchInstall() {
             attackerSearch = $('#search-attacker').find('table>tbody'),
             defenderSearch = $('#search-defender').find('table>tbody'),
             currentRow,currentRowClone;
-            
+
         for(mon of pokemon) {
             currentRow = $('<tr/>', {'data-pokemonname': mon['name'], 'data-pokemonid': mon['id'], 'data-pokemontype': mon['type'].join(','), 'data-pokemonstats': mon['basestats'].join(',')});
             currentRow
@@ -634,16 +634,16 @@ async function pokeSearchInstall() {
             .append($('<td/>').html(mon['id']))
             .append($('<td/>', {colspan: 4}).html(mon['name']))
             .append($('<td/>', {colspan: (mon['type'][1] == 'none' ? 2 : 1)}).append($('<img>', {src: 'i/'+mon['type'][0]+'.gif', 'alt': mon['type'][0], 'class': 'poketype'})));
-            
+
             if(mon['type'][1]!="none") {
                 currentRow.append($('<td/>').append($('<img>', {src: 'i/'+mon['type'][1]+'.gif', 'alt': mon['type'][1], 'class': 'poketype'})));
             }
-            
+
             currentRowClone = currentRow.clone();
-            
+
             currentRow.on('mousedown',function(){pokeSearchPick(this, 'attacker')});
             currentRow.appendTo(attackerSearch);
-            
+
             currentRowClone.on('mousedown',function(){pokeSearchPick(this, 'defender')});
             currentRowClone.appendTo(defenderSearch);
         }
@@ -663,7 +663,7 @@ async function pokeSearchInstall() {
         if ($pokemon["type"][1]!="none") echo '<td><img src="i/'.$pokemon["type"][1].'.gif" alt="'.$pokemon["type"][1].'" class="poketype"></td>'.PHP_EOL;
         echo '</tr>'.PHP_EOL;
     }
-    
+
     mons (array):
         basestats (array):
             HP, ATK, DEF, SPA, SPD, SPE (int)
@@ -671,7 +671,7 @@ async function pokeSearchInstall() {
         name (string)
         type (array):
             Type1 (string), Type2 (string)
-    
+
     **/
 }
 
@@ -713,16 +713,16 @@ function pickType(pickedType,wipeMon) {
 			break;
 		case "DefTypeA":
 			DefTypeA=pickedType;
-			if(wipeMon!==false) advMode.clearDefender(); 
+			if(wipeMon!==false) advMode.clearDefender();
 			break;
 		case "DefTypeB":
 			DefTypeB=pickedType;
-			if(wipeMon!==false) advMode.clearDefender(); 
+			if(wipeMon!==false) advMode.clearDefender();
 			break;
 	}
 	$('#typePicker').hide();
 	$('#typePicker-clicktrap').hide();
-	
+
 	document.getElementById("typeeffect").value=typeReference[AtkType][DefTypeA] * typeReference[AtkType][DefTypeB];
 	document.getElementById("MoveType").src="i/"+typeReference[AtkType]["type"]+".png";
 	document.getElementById("MoveTypeText").innerHTML=typeReference[AtkType]["type"];
@@ -754,7 +754,7 @@ function collectionSaveAs() {
 	if(collectionArea.value=="") return false;
 	collectionContent = collectionArea.value.replace(/([^\r])\n/g, "$1\r\n");
 	var blob = new Blob([collectionContent], {type: "text/plain;charset=Windows-1252"});
-	
+
 	d = new Date;
 	saveDate = "";
 	if(d.getDate() < 10) saveDate += "0";
@@ -767,7 +767,7 @@ function collectionSaveAs() {
 	if(d.getMinutes() < 10) saveDate += "0";
 	saveDate += d.getMinutes();
 	fileName = "damage-calcs-"+saveDate+".txt";
-	
+
 	saveAs(blob, fileName);
 }
 function collectionClear() {
@@ -782,6 +782,7 @@ advMode.toggle = function() {
 	if(advMode.enabled) {
 		$('#calcInput').removeClass('advanced-enabled');
 		advMode.clearAttacker("i/atk.png");
+    	$("#defenderHPStatLabel").html("Current HP:");
 		advMode.enabled=false;
 	} else {
 		$('#calcInput').addClass('advanced-enabled');
@@ -842,7 +843,7 @@ advMode.suggestDefenderHP = function () {
 	dataset=dataset.split(",");
 	baseHP=dataset[1];
 	maxHP = (0|(((2*baseHP)+31+(0|255/4))*Lv)/100)+Lv+10;
-	
+
 	if(input.defenderHPStat.valueAsNumber>maxHP) input.defenderHPStat.value = maxHP;
 	$("#defenderHPStatLabel").html("Current HP (up to "+maxHP+"):");
 	input.defenderHPStat.max=maxHP;
