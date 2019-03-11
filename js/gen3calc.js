@@ -649,30 +649,6 @@ async function pokeSearchInstall() {
         }
     };
     xhr.send();
-    /**
-    $json = file_get_contents("js/pokestats.json");
-    $data = json_decode($json,true);
-    foreach($data["pokemon"] as $pokemon) {
-        echo '<tr data-pokemonname="'.$pokemon["name"].'" data-pokemonid="'.$pokemon["id"].'" data-pokemontype="'.$pokemon["type"][0].','.$pokemon["type"][1].'"'." data-pokemonstats=\"".join(",",$pokemon["basestats"])."\" onmousedown=\"pokeSearchPick(this,'attacker')\">".PHP_EOL;
-        echo '<td><img src="i/mons/icons/'.$pokemon["id"].'.png"></td>'.PHP_EOL;
-        echo '<td>'.$pokemon["id"].'</td>'.PHP_EOL;
-        echo '<td colspan="4">'.$pokemon["name"].'</td>'.PHP_EOL;
-        echo '<td';
-        if ($pokemon["type"][1]=="none") echo ' colspan="2"';
-        echo '><img src="i/'.$pokemon["type"][0].'.gif" alt="'.$pokemon["type"][0].'" class="poketype"></td>'.PHP_EOL;
-        if ($pokemon["type"][1]!="none") echo '<td><img src="i/'.$pokemon["type"][1].'.gif" alt="'.$pokemon["type"][1].'" class="poketype"></td>'.PHP_EOL;
-        echo '</tr>'.PHP_EOL;
-    }
-
-    mons (array):
-        basestats (array):
-            HP, ATK, DEF, SPA, SPD, SPE (int)
-        id (int)
-        name (string)
-        type (array):
-            Type1 (string), Type2 (string)
-
-    **/
 }
 
 //TYPE LIST AND EFFECTIVENESS
