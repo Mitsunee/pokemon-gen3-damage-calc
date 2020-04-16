@@ -376,6 +376,7 @@ function rollDamage(base) {
 		rollsVerbose="";
 		for (let i=85;i<101;i++) {
 			roll =0| (base*i)/100;
+			if (roll == 0) roll = 1;
 			rolls.push(roll);
 			rollsVerbose += roll;
 			if(i!=100) rollsVerbose += ", ";
