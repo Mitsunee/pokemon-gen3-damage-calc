@@ -452,9 +452,21 @@ function DamageCalc(){
 	}
 
 	////-- Calculate Base Damage--
-	baseDmg =0| Math.trunc(Math.trunc(2*Lv/5+2)*(ATK*aSM)*basePower/(DEF*dSM))/50;
+	baseDmg = Math.trunc(
+		Math.trunc(
+			Math.trunc(2*Lv/5+2) *
+			Math.trunc(ATK*aSM) *
+			basePower / Math.trunc(DEF*dSM)
+		)/50
+	);
 	//Crits only apply atkstages if > 0 and defstages if < 0
-	baseCritDmg =0| Math.trunc(Math.trunc(2*Lv/5+2)*(ATK*(aS <= 0 ? 1 : aSM))*basePower/(DEF*(dS >= 0 ? 1 : dSM)))/50;
+	baseCritDmg = Math.trunc(
+		Math.trunc(
+			Math.trunc(2*Lv/5+2) *
+			Math.trunc(ATK*(aS <= 0 ? 1 : aSM)) *
+			basePower / Math.trunc(DEF*(dS >= 0 ? 1 : dSM))
+		)/50
+	);
 
 	////-- basedamage modifiers --
 	if(input.lsrefcheck.checked) {//Light Screen or Reflect?
