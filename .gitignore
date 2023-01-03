@@ -1,0 +1,12 @@
+*.log
+yarn-debug.log*
+yarn-error.log*
+
+node_modules
+.DS_Store
+dist
+dist-ssr
+*.local
+
+# LEGACY CODE
+js/gen3calc.js
