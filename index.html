@@ -14,20 +14,9 @@
 <meta property="og:description" content="Damage Calculator for Pokemon Ruby, Sapphire, Emerald, Fire Red, Leaf Green and the Gamecube spin-offs.">
 <link href="/favicon.ico" rel="shortcut icon">
 <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
-<link href="style.css?_=<?php echo filemtime('style.css'); ?>" rel="stylesheet">
+<link href="style.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script src="js/gen3calc.<?php
-if(!isset($_GET["dev"])) {
-    echo "min.js?_=".filemtime('js/gen3calc.min.js');
-} else {
-    echo "js?_=".filemtime('js/gen3calc.js');
-    //load libs manually
-    foreach (glob("js/lib/*.js") as $lib) {
-		echo '"></script>'.PHP_EOL;
-        echo "<script src=\"$lib?_=".filemtime($lib);
-    }
-}
-?>"></script>
+<script src="js/gen3calc.js"></script>
 </head>
 <body onload="pokeSearchInstall();DamageCalc();$('main').show();">
 <h1 style="text-align:center;"><img src="i/mons/icons/382.png" alt="K"> <img src="i/mons/icons/383.png" alt="G"> <img src="i/mons/icons/384.png" alt="R"> Damage Calculator for Generation 3 <img src="i/mons/icons/003.png" alt="V"> <img src="i/mons/icons/006.png" alt="C"> <img src="i/mons/icons/009.png" alt="B"></h1>
