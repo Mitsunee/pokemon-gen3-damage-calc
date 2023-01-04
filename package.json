@@ -25,7 +25,8 @@
     ]
   },
   "dependencies": {
-    "vue": "^3.2.45"
+    "vue": "^3.2.45",
+    "zod": "^3.20.2"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.1.4",
