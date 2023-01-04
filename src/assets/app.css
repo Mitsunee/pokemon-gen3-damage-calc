@@ -22,6 +22,8 @@ body {
   --ui-border: #00b0f0;
   --ui-bg: #ddf0ff;
 
+  --shadow: rgba(0 0 0 / 80%);
+
   --icon-dim: 24px;
 }
 
@@ -34,16 +36,19 @@ body {
 .ui-green {
   --ui-border: #00d080;
   --ui-bg: #ddffe3;
+  --ui: #006600;
 }
 
 .ui-orange {
   --ui-border: #d08000;
   --ui-bg: #fff0dd;
+  --ui: #663f00;
 }
 
 .ui-red {
   --ui-border: #d08080;
   --ui-bg: #f0eeee;
+  --ui: #660000;
 }
 
 body {
