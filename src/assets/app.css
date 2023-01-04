@@ -1,0 +1,147 @@
+html,
+body {
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+  max-width: 100%;
+  min-height: 100dvh;
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+:root {
+  --sans: "Lato", sans-serif;
+
+  --primary: #121212;
+  --ui: #0080b0;
+  --link: #006600;
+  --ui-border: #00b0f0;
+  --ui-bg: #ddf0ff;
+
+  --icon-dim: 24px;
+}
+
+@media (min-width: 450px) {
+  :root {
+    --icon-dim: 32px;
+  }
+}
+
+.ui-green {
+  --ui-border: #00d080;
+  --ui-bg: #ddffe3;
+}
+
+.ui-orange {
+  --ui-border: #d08000;
+  --ui-bg: #fff0dd;
+}
+
+.ui-red {
+  --ui-border: #d08080;
+  --ui-bg: #f0eeee;
+}
+
+body {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-content: flex-start;
+  row-gap: 0.33rem;
+  column-gap: 1.33rem;
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.1em;
+  background: url("/bg_mons.png") no-repeat center 252px,
+    url("/bg_road.png") repeat-x top center;
+  background-color: #7dad71;
+  color: var(--primary);
+}
+
+body > header {
+  flex-basis: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 1px;
+  justify-content: center;
+  align-items: center;
+}
+
+body > header > h1 {
+  padding: 0.5em;
+  font-size: 1.1rem;
+  line-height: 1.1em;
+  text-align: center;
+  margin: 0px;
+}
+
+body > header > img {
+  transform: translateY(var(--y, 0px));
+  width: var(--icon-dim);
+  height: var(--icon-dim);
+  min-width: var(--icon-dim);
+  min-height: var(--icon-dim);
+  display: block;
+}
+body > header > img[alt="G"],
+body > header > img[alt="V"] {
+  --y: 33%;
+}
+body > header > img[alt="R"],
+body > header > img[alt="B"] {
+  display: none;
+  --y: -33%;
+}
+
+@media (min-width: 450px) {
+  body > header > h1 {
+    gap: 0.5ch;
+    font-size: 1.5rem;
+  }
+  body > header > img[alt="R"],
+  body > header > img[alt="B"] {
+    display: block;
+  }
+}
+
+@media (min-width: 800px) {
+  body > header > h1 {
+    font-size: 2rem;
+  }
+}
+
+body > main {
+  max-width: 800px;
+  width: 90vw;
+}
+
+body > main,
+body > aside {
+  border: 1px solid var(--ui-border);
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(238, 255, 255, 0.75);
+}
+
+body > aside {
+  width: 320px;
+  max-width: 90vw;
+}
+body > aside > hr {
+  border-top: 1px solid var(--ui-border);
+}
+body > aside .small {
+  font-size: 12px;
+}
+
+a {
+  color: #060;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}

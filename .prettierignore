@@ -11,5 +11,5 @@ dist-ssr
 # LEGACY CODE
 js/gen3calc.js
 js/pokestats.json
-index.html
+index-old.html
 style.css
